@@ -18,12 +18,8 @@ import java.util.function.Consumer;
  *         }
  * </code>
  * will generate following 6 strings
- * ABC
- * ACB
- * BAC
- * BCA
- * CAB
- * CBA
+ * ABC,ACB,BAC,BCA,CAB,CBA
+ * Note that if you start from CAB it will generate only 2 values CAB and CBA
  */
 public class PermutationGenerator implements Iterable<String> {
 
