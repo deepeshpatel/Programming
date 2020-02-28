@@ -1,7 +1,8 @@
 package algo.sequence;
 
-import org.junit.Assert;
 import org.junit.Test;
+
+import static org.junit.Assert.assertEquals;
 
 
 public class PermutationGeneratorTest {
@@ -14,7 +15,7 @@ public class PermutationGeneratorTest {
 
         int i = 0;
         for(String s:pg) {
-            Assert.assertEquals(values[i++], s);
+            assertEquals(values[i++], s);
         }
     }
 
@@ -24,6 +25,6 @@ public class PermutationGeneratorTest {
         for(String s: new PermutationGenerator("ABCDE")) {
             i++;
         }
-        Assert.assertEquals(120, i);
+        assertEquals(120, i);
     }
 }
