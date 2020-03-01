@@ -24,10 +24,11 @@ import com.sun.istack.internal.NotNull;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.stream.Stream;
+import java.util.stream.StreamSupport;
 
 
-
-public class CombinationGenerator<T extends List<?>> implements Iterable<T> {
+public class CombinationGenerator<T> implements Iterable<T> {
 
     private final List<T> seed = new ArrayList<>();
     private int r;
@@ -58,6 +59,10 @@ public class CombinationGenerator<T extends List<?>> implements Iterable<T> {
         this.seed.addAll(seed);
         this.r = r;
 
+    }
+
+    public Stream<T> stream() {
+        return StreamSupport.stream(this.spliterator(),false);
     }
 
     @Override
