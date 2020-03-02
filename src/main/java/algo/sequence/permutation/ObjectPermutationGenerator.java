@@ -6,11 +6,11 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-public class PermutationListGenerator<T> implements Iterable<List<T>> {
+public class ObjectPermutationGenerator<T> implements Iterable<List<T>> {
 
     private final List<T> seed = new ArrayList<>();
 
-    public PermutationListGenerator(List<T> seed) {
+    ObjectPermutationGenerator(List<T> seed) {
         this.seed.addAll(seed);
     }
 
@@ -18,7 +18,6 @@ public class PermutationListGenerator<T> implements Iterable<List<T>> {
     public Iterator<List<T>> iterator() {
         return new Itr<>(seed);
     }
-
 
     private static class Itr<T> implements Iterator<List<T>> {
 

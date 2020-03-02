@@ -7,14 +7,13 @@ import java.util.List;
 
 import static org.junit.Assert.assertEquals;
 
-public class PermutationListGeneratorTest {
+public class ObjectPermutationGeneratorTest {
 
     @Test
     public void shouldGenerate6PermutationsForLength3() {
 
-        String[] values = new String[] {"A","B"};
         String[] expected = new String[]{"[A, B]","[B, A]"};
-        PermutationListGenerator<String> pg = new PermutationListGenerator<>(Arrays.asList(values));
+        Iterable<List<String>> pg = new ObjectPermutationGenerator<>(Arrays.asList("A","B"));
 
         int i=0;
         for(List<String> l : pg) {
@@ -25,8 +24,8 @@ public class PermutationListGeneratorTest {
 
     @Test
     public void shouldGenerateFiveFactorialPermutations() {
-        String[] values = new String[] {"A","B","C","D","E"};
-        PermutationListGenerator<String> pg = new PermutationListGenerator<>(Arrays.asList(values));
+        Iterable<List<String>> pg =
+                new ObjectPermutationGenerator<>(Arrays.asList("A","B","C","D","E"));
 
         int i = 0;
         for(List<String> ignored : pg) {

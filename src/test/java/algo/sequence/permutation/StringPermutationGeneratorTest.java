@@ -4,13 +4,13 @@ import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
 
-public class PermutationStringGeneratorTest {
+public class StringPermutationGeneratorTest {
 
     @Test
     public void shouldGenerate6PermutationsForLength3() {
 
         String[] values = new String[] {"ABC","ACB","BAC","BCA","CAB","CBA"};
-        PermutationStringGenerator pg = new PermutationStringGenerator("ABC");
+        StringPermutationGenerator pg = new StringPermutationGenerator("ABC");
 
         int i = 0;
         for(String s:pg) {
@@ -21,7 +21,7 @@ public class PermutationStringGeneratorTest {
     @Test
     public void shouldGenerateFiveFactorialPermutations() {
         int i = 0;
-        for(String ignored : new PermutationStringGenerator("ABCDE")) {
+        for(String ignored : new StringPermutationGenerator("ABCDE")) {
             i++;
         }
         assertEquals(120, i);

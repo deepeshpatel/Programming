@@ -29,7 +29,7 @@ import java.util.stream.Stream;
 import java.util.stream.StreamSupport;
 
 
-public class CombinationListGenerator<T> implements Iterable<List<T>> {
+public class ObjectCombinationGenerator<T> implements Iterable<List<T>> {
 
     private final List<T> seed = new ArrayList<>();
     private int r;
@@ -51,7 +51,7 @@ public class CombinationListGenerator<T> implements Iterable<List<T>> {
      * @param seed List of N items
      * @param r number of combinations from N items. r must be <= N
      */
-    public CombinationListGenerator(@NotNull List<T> seed, int r) {
+     ObjectCombinationGenerator(@NotNull List<T> seed, int r) {
 
         if(r > seed.size())
             throw new IllegalArgumentException("Can't produce combinations of length " +
@@ -62,7 +62,7 @@ public class CombinationListGenerator<T> implements Iterable<List<T>> {
 
     }
 
-    public Stream<List<T>> stream() {
+    Stream<List<T>> stream() {
         return StreamSupport.stream(this.spliterator(),false);
     }
 

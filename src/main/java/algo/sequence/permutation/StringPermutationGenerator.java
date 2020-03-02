@@ -41,11 +41,11 @@ import java.util.NoSuchElementException;
  * ABC,ACB,BAC,BCA,CAB,CBA
  * Note that if you start from CAB it will generate only 2 values CAB and CBA
  */
-public class PermutationStringGenerator implements Iterable<String> {
+public class StringPermutationGenerator implements Iterable<String> {
 
     private final String seed;
 
-    public PermutationStringGenerator(@NotNull String seed){
+    StringPermutationGenerator(@NotNull String seed){
         this.seed = seed;
     }
 

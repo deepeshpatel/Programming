@@ -24,7 +24,7 @@ import java.util.stream.Stream;
 import java.util.stream.StreamSupport;
 
 
-public class CombinationStringGenerator implements Iterable<String> {
+public class StringCombinationGenerator implements Iterable<String> {
 
     private String seed;
     private int r;
@@ -46,7 +46,7 @@ public class CombinationStringGenerator implements Iterable<String> {
      * @param seed List of N items
      * @param r number of combinations from N items. r must be <= N
      */
-    public CombinationStringGenerator(@NotNull String seed, int r) {
+     StringCombinationGenerator(@NotNull String seed, int r) {
 
         if(r > seed.length())
             throw new IllegalArgumentException("Can't produce combinations of length " +
@@ -57,7 +57,7 @@ public class CombinationStringGenerator implements Iterable<String> {
 
     }
 
-    public Stream<String> stream() {
+    Stream<String> stream() {
         return StreamSupport.stream(this.spliterator(),false);
     }
 

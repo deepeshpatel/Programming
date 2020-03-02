@@ -7,7 +7,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class CombinationListGeneratorTest {
+public class ObjectCombinationGeneratorTest {
 
     private static <T> String listToString(List<T> list) {
         return list.toString();
@@ -15,9 +15,8 @@ public class CombinationListGeneratorTest {
 
     @Test
     public void shouldReturn3Combinations() {
-        String[] s = new String[]{"Red", "Green", "Blue"};
-        List<String> list = Arrays.asList(s);
-        CombinationListGenerator<String> cg = new CombinationListGenerator(list, 2);
+        List<String> list = Arrays.asList("Red", "Green", "Blue");
+        ObjectCombinationGenerator<String> cg = new ObjectCombinationGenerator<>(list, 2);
 
         String[] result = new String[] {
                 "[Red, Green]",
@@ -33,13 +32,12 @@ public class CombinationListGeneratorTest {
 
     @Test
     public void testStreamOFCombinations() {
-        String[] input = new String[]{"Z", "B", "C"};
         String[] expected = new String[] {"[Z, B]", "[Z, C]","[B, C]"};
-        List<String> list = Arrays.asList(input);
+        List<String> input = Arrays.asList("Z", "B", "C");
 
-        List<String> output = new CombinationListGenerator<String>(list, 2)
+        List<String> output = new ObjectCombinationGenerator<>(input, 2)
                 .stream()
-                .map(e -> listToString(e))
+                .map(ObjectCombinationGeneratorTest::listToString)
                 .collect(Collectors.toList());
 
         int i=0;
