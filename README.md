@@ -62,7 +62,7 @@ Following code will print all combinations of size R in a list of Objects of siz
         }
 
 ***
-** Number Sequence Generator for a give base and size:**
+**Number Sequence Generator for a give base and size:**
 Following code will print all numbers of base 5 and size 2 lexicographical order. That is from "00" to "44". Symbols are considered starting from 0-9 and A-Z in order.
 
         Iterable<String> itr = Sequence
@@ -75,7 +75,7 @@ Following code will print all numbers of base 5 and size 2 lexicographical order
             System.out.println(s);
         }
 ***
-** Number Sequence Generator with given symbols and size:**
+**Number Sequence Generator with given symbols and size:**
 Following code will print all numbers of size 3 for symbols "H" and "T" in lexicographical order. That is from "HHH" to "TTT"
 
         Iterable<String> itr = Sequence
