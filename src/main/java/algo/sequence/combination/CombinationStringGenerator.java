@@ -15,22 +15,18 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+package algo.sequence.combination;
 
-package algo.sequence;
-
-import algo.struct.IndexedListWrapper;
 import com.sun.istack.internal.NotNull;
 
-import java.util.ArrayList;
 import java.util.Iterator;
-import java.util.List;
 import java.util.stream.Stream;
 import java.util.stream.StreamSupport;
 
 
-public class CombinationGenerator<T> implements Iterable<T> {
+public class CombinationStringGenerator implements Iterable<String> {
 
-    private final List<T> seed = new ArrayList<>();
+    private String seed;
     private int r;
 
     /**
@@ -50,81 +46,67 @@ public class CombinationGenerator<T> implements Iterable<T> {
      * @param seed List of N items
      * @param r number of combinations from N items. r must be <= N
      */
-    public CombinationGenerator(@NotNull List<T> seed, int r) {
+    public CombinationStringGenerator(@NotNull String seed, int r) {
 
-        if(r > seed.size())
+        if(r > seed.length())
             throw new IllegalArgumentException("Can't produce combinations of length " +
-                    r + " from list of length " + seed.size());
+                    r + " from list of length " + seed.length());
 
-        this.seed.addAll(seed);
+        this.seed = seed;
         this.r = r;
 
     }
 
-    public Stream<T> stream() {
+    public Stream<String> stream() {
         return StreamSupport.stream(this.spliterator(),false);
     }
 
     @Override
-    public Iterator<T> iterator() {
+    public Iterator<String> iterator() {
         return new Itr(seed,r);
     }
 
-    private class Itr<T> implements Iterator<List<T>> {
+    private static class Itr implements Iterator<String> {
 
-        List<T> values;
+        char[] seed;
         int[] indices;
         int r;
 
-        private Itr(List<T> values, int r) {
-            this.values = values;
+        private Itr(String seed, int r) {
+            this.seed = seed.toCharArray();
             this.r = r;
             createIndices();
         }
 
         private void createIndices() {
             indices = new int[r];
-            for(int i=0; i<indices.length; i++) {
+            for (int i = 0; i < indices.length; i++) {
                 indices[i] = i;
             }
         }
 
         @Override
         public boolean hasNext() {
-            return indices!=null;
+            return indices != null;
         }
 
         @Override
-        public List<T> next() {
+        public String next() {
             int[] old = indices;
-            indices = nextCombination(indices,values.size());
-            return new IndexedListWrapper<>(values, old);
+            indices = CombinationAlgorithm.nextCombination(indices, seed.length);
+            return indicesToString(seed, old);
         }
 
-        private int[] nextCombination(int[]a, int n) {
-
-            int[] next = new int[a.length];
-            System.arraycopy(a,0,next,0, a.length);
-
-            int i=next.length-1;
-            //max supported value at index i
-            int maxSupportedValue = n-1;
-
-            while( i>=0 && next[i] == maxSupportedValue) {
-                i--;
-                maxSupportedValue--;
+        private String indicesToString(char[] seed, int[] indices) {
+            char[] result = new char[indices.length];
+            for(int i=0; i<result.length; i++) {
+                result[i] = seed[indices[i]];
             }
-            if(i==-1) {
-                return null;
-            }
-
-            next[i] = next[i] + 1;
-
-            for(int j=i+1; j<next.length; j++) {
-                next[j] = next[j-1]+1;
-            }
-
-            return next;
+            return new String(result);
         }
     }
 }
+
+
+
+

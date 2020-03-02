@@ -1,17 +1,16 @@
-package algo.sequence;
+package algo.sequence.permutation;
 
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
 
-
-public class PermutationGeneratorTest {
+public class PermutationStringGeneratorTest {
 
     @Test
     public void shouldGenerate6PermutationsForLength3() {
 
         String[] values = new String[] {"ABC","ACB","BAC","BCA","CAB","CBA"};
-        PermutationGenerator pg = new PermutationGenerator("ABC");
+        PermutationStringGenerator pg = new PermutationStringGenerator("ABC");
 
         int i = 0;
         for(String s:pg) {
@@ -22,7 +21,7 @@ public class PermutationGeneratorTest {
     @Test
     public void shouldGenerateFiveFactorialPermutations() {
         int i = 0;
-        for(String s: new PermutationGenerator("ABCDE")) {
+        for(String ignored : new PermutationStringGenerator("ABCDE")) {
             i++;
         }
         assertEquals(120, i);
