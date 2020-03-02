@@ -1,5 +1,3 @@
-package algo.sequence.combination;
-
 /*
  * Copyright (c) 2020 Deepesh Patel
  *
@@ -18,6 +16,7 @@ package algo.sequence.combination;
  * limitations under the License.
  */
 
+package algo.sequence.combination;
 
 import algo.struct.IndexedListWrapper;
 import com.sun.istack.internal.NotNull;
@@ -27,7 +26,6 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.stream.Stream;
 import java.util.stream.StreamSupport;
-
 
 public class ObjectCombinationGenerator<T> implements Iterable<List<T>> {
 
