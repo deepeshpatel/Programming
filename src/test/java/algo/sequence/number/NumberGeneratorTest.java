@@ -9,7 +9,7 @@ public class NumberGeneratorTest {
     public void shouldGenerate8Values() {
 
         int i=0;
-        for(String s: new NumberGenerator(2, 3)) {
+        for(String s: new NumberGenerator(2,3,0,0)) {
             i++;
         }
         Assert.assertEquals(8,i);

@@ -20,17 +20,36 @@ package algo.sequence.number;
 
 public class NumberGeneratorBuilder {
 
+    private int startFrom;
+    private int skipEvery;
     private int base;
     private int size;
     private String symbols;
 
     public NumberGeneratorBuilder ofBase(int base) {
+        if(base <= 0 )
+            throw new IllegalArgumentException(" base must be > 0");
         this.base = base;
         return this;
     }
 
     public NumberGeneratorBuilder ofSize(int size) {
+        if(size <= 0 )
+            throw new IllegalArgumentException(" size must be > 0");
         this.size = size;
+        return this;
+    }
+
+    public NumberGeneratorBuilder andSkipEvery(int skipEvery) {
+        if(skipEvery < 0 ) throw new IllegalArgumentException(" skipEvery value must be >=0");
+        this.skipEvery = skipEvery;
+        return this;
+    }
+
+    public NumberGeneratorBuilder withStartingValue(int startFrom) {
+        if(startFrom < 0 )
+            throw new IllegalArgumentException(" StartingValue must be >=0");
+        this.startFrom = startFrom;
         return this;
     }
 
@@ -46,9 +65,9 @@ public class NumberGeneratorBuilder {
         }
 
         if(symbols != null) {
-            return new NumberGenerator(symbols.toCharArray(), size);
+            return new NumberGenerator(symbols.toCharArray(), size, startFrom, skipEvery);
         }
 
-        return new NumberGenerator(base, size);
+        return new NumberGenerator(base, size, startFrom, skipEvery);
     }
 }

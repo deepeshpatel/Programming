@@ -24,13 +24,14 @@ public class NumberGenerator implements Iterable<String>{
 
     private char[] symbols;
     private int size;
+    private int startFrom;
+    private int skipEvery;
 
-    NumberGenerator(char[] symbols, int size) {
-        this.symbols = symbols;
-        this.size = size;
+    NumberGenerator(char[] symbols, int size, int startFrom, int skipEvery) {
+        init(symbols, size, startFrom, skipEvery);
     }
 
-    NumberGenerator(int base, int size) {
+    NumberGenerator(int base, int size, int startFrom, int skipEvery) {
 
         char[] numericSymbols = new char[base];
 
@@ -42,26 +43,36 @@ public class NumberGenerator implements Iterable<String>{
             numericSymbols[i] = (char) ('A' + (i-10));
         }
 
-        this.size = size;
-        this.symbols = numericSymbols;
+        init(numericSymbols, size, startFrom, skipEvery);
+    }
 
+    private void init(char[] symbols, int size, int startFrom, int skipEvery) {
+        this.symbols = symbols;
+        this.size = size;
+        this.startFrom = startFrom;
+        this.skipEvery = skipEvery;
     }
 
     @Override
     public Iterator<String> iterator() {
-        return new Itr(symbols,size);
+        return new Itr(symbols,size, startFrom, skipEvery);
     }
 
     static class Itr implements Iterator<String> {
 
         private char[] symbols;
         private int[] currentValuesAsIndices;
+        private int skipEvery;
         private boolean hasNext = true;
 
 
-        Itr(char[] symbols, int size) {
+        Itr(char[] symbols, int size, int startFrom, int skipEvery) {
             this.symbols = symbols;
+            this.skipEvery = skipEvery;
             currentValuesAsIndices = new int[size];
+            if(startFrom> 0 )
+                nextKthNumber(symbols.length, currentValuesAsIndices, startFrom);
+
         }
 
         @Override
@@ -72,26 +83,45 @@ public class NumberGenerator implements Iterable<String>{
         @Override
         public String next() {
             String result = indicesToValues(currentValuesAsIndices, symbols);
-            nextNumber(symbols, currentValuesAsIndices);
+
+            if(skipEvery > 0) {
+                nextKthNumber(symbols.length, currentValuesAsIndices, skipEvery);
+                return result;
+            } else {
+                nextNumber(symbols.length, currentValuesAsIndices);
+            }
             return result;
         }
 
-        void nextNumber(char[] allSymbols,  int[] currentValue)  {
+        void nextKthNumber(int numOfSymbols,  int[] indices, int k)  {
+
+            int nextK = k;
+            for(int i=0; i<indices.length; i++) {
+                int v = (indices[i] + nextK) % numOfSymbols;
+                nextK = (indices[i] + nextK) / numOfSymbols;
+                indices[i] = v;
+            }
+            if(nextK > 0) {
+                hasNext = false;
+            }
+        }
+
+        void nextNumber(int numOfSymbols,  int[] indices)  {
 
 
             int j;
-            for (j=0; j <currentValue.length ; j++) {
+            for (j=0; j <indices.length ; j++) {
 
-                int v = currentValue[j];
+                int v = indices[j];
 
-                if(v == allSymbols.length-1) {
-                    currentValue[j] = 0; //reset to zero
+                if(v == numOfSymbols-1) {
+                    indices[j] = 0; //reset to zero
                 } else {
-                    currentValue[j] = v + 1;
+                    indices[j] = v + 1;
                     break;  //increment done. no need to proceed further
                 }
             }
-            hasNext = j != currentValue.length;
+            hasNext = j != indices.length;
         }
 
         private static String indicesToValues(int[] indices, char[] values) {

@@ -62,6 +62,8 @@ public class SequenceTest {
                 .numbers()
                 .fromSymbols("HT")
                 .ofSize(3)
+                .withStartingValue(3)
+                .andSkipEvery(0)
                 .build();
 
         System.out.println("----------------------");
@@ -73,8 +75,10 @@ public class SequenceTest {
 
         Iterable<String> itr2 = Sequence
                 .numbers()
-                .ofBase(5)
+                .ofBase(10)
                 .ofSize(2)
+                .withStartingValue(4)
+                .andSkipEvery(0)
                 .build();
 
         System.out.println("----------------------");
