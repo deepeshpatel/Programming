@@ -100,8 +100,21 @@ public class SequenceTest {
     }
 
     public static void main(String[] args) {
-        testNumbers();
+        testRandom();
+        //testNumbers();
 //        testCombination();
 //        testPermutation();
+    }
+
+    private static void testRandom() {
+
+        Iterable<Integer> randomInts = Sequence.uniqueRandomNumbers()
+                .from(-4)
+                .to(4)
+                .build();
+
+        for(int i: randomInts) {
+            System.out.println(i);
+        }
     }
 }

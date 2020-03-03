@@ -21,6 +21,7 @@ package com.sutra.algo.sequence;
 import com.sutra.algo.sequence.combination.CombinationBuilder;
 import com.sutra.algo.sequence.number.NumberGeneratorBuilder;
 import com.sutra.algo.sequence.permutation.PermutationBuilder;
+import com.sutra.algo.sequence.random.UniqueRandomGenerator;
 
 public class Sequence {
 
@@ -34,6 +35,10 @@ public class Sequence {
 
     public static NumberGeneratorBuilder numbers() {
         return new NumberGeneratorBuilder();
+    }
+
+    public static UniqueRandomGenerator.Builder uniqueRandomNumbers() {
+        return new UniqueRandomGenerator.Builder();
     }
 
 }

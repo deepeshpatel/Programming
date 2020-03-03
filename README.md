@@ -1,7 +1,21 @@
 # OpenAlgo
 Open Source library for useful algorithms and data structures
 
-Currently Available Algorithms
+**Currently Available Algorithms**
+
+Sequence Generators For -
+
+_[1] Permutation of Strings_
+
+_[2] Permutation of Objects_
+
+_[3] Combination of R characters in a string of length N_
+
+_[4] Combination of R objects in a list of length N_
+
+_[5] Numbers of any base/symbols with a given width_
+
+_[6] Unique random integers in a given bound_   
 
 ***
 **Permutation Generator for String:**
@@ -40,7 +54,7 @@ class Example {
 ```
 ***
 **Combination Generator for String:**
-Following code will print all combinations of size R in a string of size N where R <=N in lexicographical order
+Following code will print (in lexicographical order) all combinations of substring of size R in a string of size N where R <= N
 ```java
 class Example {
     public example() {
@@ -59,7 +73,7 @@ class Example {
 ***
 
 **Combination Generator for Objects:**
-Following code will print all combinations of size R in a list of Objects of size N where R <=N in lexicographical order
+Following code will print (in lexicographical order) all combinations of size R in a list of Objects of size N where R <=N
 ```java
 class Example {
     public example() {
@@ -98,7 +112,8 @@ class Example {
 ```
 ***
 **Number Sequence Generator with given symbols and size:**
-Following code will print all numbers of size 3 for symbols "H" and "T" in lexicographical order. That is from "HHH" to "TTT"
+Following code will print all numbers of size 3 for symbols "H" and "T" in lexicographical order.
+That is from "HHH" to "TTT". In this case length of 'symbols' define the base of number system
 
 ```java
 class Example {
@@ -114,6 +129,23 @@ class Example {
         for(String s: itr) {
          System.out.println(s);
         }       
+    }
+}
+```
+***
+**Random Integer Generator which produces unique random integers in a given bound. 
+
+```java
+class Example {
+    public example() {
+        Iterable<Integer> randomInts = Sequence.uniqueRandomNumbers()
+                .from(-4)
+                .to(4)
+                .build();
+
+        for(int i: randomInts) {
+            System.out.println(i);
+        }      
     }
 }
 ```
