@@ -18,6 +18,8 @@
 
 package com.sutra.algo.sequence.permutation;
 
+import com.sutra.algo.struct.Order;
+
 import java.util.List;
 
 public class PermutationBuilder {
@@ -30,27 +32,40 @@ public class PermutationBuilder {
         return new StringPermutationBuilder(data);
     }
 
+
     public static class ObjectPermutationBuilder<T> {
         List<T> data;
+        Order order;
 
         ObjectPermutationBuilder(List<T> data) {
             this.data = data;
         }
 
+        public ObjectPermutationBuilder<T> orderBy(Order order) {
+            this.order = order;
+            return this;
+        }
+
         public Iterable<List<T>> build() {
-            return new ObjectPermutationGenerator<>(data);
+            return new ObjectPermutationGenerator<>(data, order);
         }
     }
 
     public static class StringPermutationBuilder {
         String data;
+        Order order;
+
+        public StringPermutationBuilder orderBy(Order order) {
+            this.order = order;
+            return this;
+        }
 
         StringPermutationBuilder(String data) {
             this.data = data;
         }
 
         public Iterable<String> build() {
-            return new StringPermutationGenerator(data);
+            return new StringPermutationGenerator(data, order);
         }
     }
 

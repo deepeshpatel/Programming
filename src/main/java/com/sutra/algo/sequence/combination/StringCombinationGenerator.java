@@ -19,7 +19,9 @@
 package com.sutra.algo.sequence.combination;
 
 import com.sun.istack.internal.NotNull;
+import com.sutra.algo.struct.Order;
 
+import java.util.Arrays;
 import java.util.Iterator;
 import java.util.stream.Stream;
 import java.util.stream.StreamSupport;
@@ -47,15 +49,30 @@ public class StringCombinationGenerator implements Iterable<String> {
      * @param seed List of N items
      * @param r number of combinations from N items. r must be <= N
      */
-     StringCombinationGenerator(@NotNull String seed, int r) {
+    StringCombinationGenerator(@NotNull String seed, int r) {
+        this(seed, r, Order.INPUT);
+    }
 
-        if(r > seed.length())
-            throw new IllegalArgumentException("Can't produce combinations of length " +
-                    r + " from list of length " + seed.length());
+    StringCombinationGenerator(@NotNull String seed, int r, Order order) {
 
-        this.seed = seed;
-        this.r = r;
+    if(r > seed.length())
+        throw new IllegalArgumentException("Can't produce combinations of length " +
+                r + " from list of length " + seed.length());
 
+    setSeed(seed, order);
+    this.r = r;
+    }
+
+
+    void setSeed(String seed, Order order) {
+
+        if(order == Order.INPUT) {
+         this.seed = seed;
+        } else {
+            char[] input = seed.toCharArray();
+            Arrays.sort(input);
+            this.seed = new String(input);
+        }
     }
 
     Stream<String> stream() {

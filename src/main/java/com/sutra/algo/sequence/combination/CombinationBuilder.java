@@ -18,6 +18,8 @@
 
 package com.sutra.algo.sequence.combination;
 
+import com.sutra.algo.struct.Order;
+
 import java.util.List;
 
 public class CombinationBuilder {
@@ -30,42 +32,51 @@ public class CombinationBuilder {
         return new StringCombinationBuilder(data);
     }
 
-    public static class ObjectCombinationBuilder<T> {
-
+    public static abstract class AbstractCombinationBuilder<T> {
         int size;
+        Order order = Order.INPUT;
+
+        public AbstractCombinationBuilder<T> ofSize(int r) {
+            this.size = r;
+            return this;
+        }
+
+        public AbstractCombinationBuilder<T> orderBy(Order order) {
+            this.order = order;
+            return this;
+        }
+
+        abstract public Iterable<T> build();
+
+    }
+
+    public static class ObjectCombinationBuilder<T> extends AbstractCombinationBuilder<List<T>>{
+
         List<T> data;
 
         ObjectCombinationBuilder(List<T> data) {
             this.data = data;
         }
 
-        public ObjectCombinationBuilder<T> ofSize(int r) {
-            this.size = r;
-            return this;
-        }
-
+        @Override
         public Iterable<List<T>> build() {
-            return new ObjectCombinationGenerator<>(data, size);
+            return new ObjectCombinationGenerator<>(data, size, order);
         }
 
     }
 
-    public static class StringCombinationBuilder {
+    public static class StringCombinationBuilder extends AbstractCombinationBuilder<String> {
 
-        int size;
         String data;
 
         StringCombinationBuilder(String data) {
             this.data = data;
         }
 
-        public StringCombinationBuilder ofSize(int r) {
-            this.size = r;
-            return this;
-        }
 
+        @Override
         public Iterable<String> build() {
-            return new StringCombinationGenerator(data, size);
+            return new StringCombinationGenerator(data, size, order);
         }
 
     }

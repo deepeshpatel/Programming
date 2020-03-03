@@ -5,17 +5,12 @@ Open Source library for useful algorithms and data structures
 
 Sequence Generators For -
 
-_[1] Permutation of Strings_
-
-_[2] Permutation of Objects_
-
-_[3] Combination of R characters in a string of length N_
-
-_[4] Combination of R objects in a list of length N_
-
-_[5] Numbers of any base/symbols with a given width_
-
-_[6] Unique random integers in a given bound_   
+1. Permutation of Strings
+1. Permutation of Objects
+1. Combination of R characters in a string of length N
+1. Combination of R objects in a list of length N
+1. Numbers of any base/symbols with a given width
+1. Unique random integers in a given bound   
 
 ***
 **Permutation Generator for String:**
@@ -27,6 +22,7 @@ class Example {
         Iterable<String> pItr = Sequence
                 .permutation()
                 .from("ABC")
+                .orderBy(Order.LEXICAL)
                 .build();
         
         for(String s: pItr) {
@@ -44,6 +40,7 @@ class Example {
         Iterable<List<String>> pItr = Sequence
                .permutation()
                .from(Arrays.asList("A","B","C"))
+               .orderBy(Order.INPUT)
                .build();
 
         for(List<String> list: pItr) {
@@ -62,6 +59,7 @@ class Example {
                 .combination()
                 .from("ABC")
                 .ofSize(2)
+                .orderBy(Order.LEXICAL)
                 .build();
     
         for(String s: itr) {
@@ -81,6 +79,7 @@ class Example {
                 .combination()
                 .from(Arrays.asList("A", "B", "C"))
                 .ofSize(2)
+                .orderBy(Order.LEXICAL)
                 .build();
     
         for(List<String> list: itr) {

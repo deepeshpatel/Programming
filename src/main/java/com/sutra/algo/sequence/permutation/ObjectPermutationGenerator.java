@@ -19,6 +19,8 @@
 package com.sutra.algo.sequence.permutation;
 
 import com.sutra.algo.struct.IndexedListWrapper;
+import com.sutra.algo.struct.Order;
+import com.sutra.algo.util.Util;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -26,7 +28,17 @@ import java.util.List;
 
 public class ObjectPermutationGenerator<T> implements Iterable<List<T>> {
 
-    private final List<T> seed = new ArrayList<>();
+    private List<T> seed = new ArrayList<>();
+
+    ObjectPermutationGenerator(List<T> seed, Order order) {
+
+        if (order == Order.LEXICAL) {
+            this.seed = Util.sorted(seed);
+        } else {
+            this.seed= new ArrayList<>();
+            this.seed.addAll(seed);
+        }
+    }
 
     ObjectPermutationGenerator(List<T> seed) {
         this.seed.addAll(seed);

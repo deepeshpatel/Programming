@@ -1,6 +1,3 @@
-package com.sutra.algo.sequence.permutation;
-
-
 /*
  * Copyright (c) 2020 Deepesh Patel
  *
@@ -19,8 +16,12 @@ package com.sutra.algo.sequence.permutation;
  * limitations under the License.
  */
 
+package com.sutra.algo.sequence.permutation;
+
 
 import com.sun.istack.internal.NotNull;
+import com.sutra.algo.struct.Order;
+import com.sutra.algo.util.Util;
 
 import java.util.Iterator;
 import java.util.NoSuchElementException;
@@ -43,10 +44,14 @@ import java.util.NoSuchElementException;
  */
 public class StringPermutationGenerator implements Iterable<String> {
 
-    private final String seed;
+    private String seed;
 
     StringPermutationGenerator(@NotNull String seed){
         this.seed = seed;
+    }
+
+    StringPermutationGenerator(@NotNull String seed, Order order){
+        this.seed = (order == Order.LEXICAL) ? Util.toLexString(seed) : seed;
     }
 
     @Override
