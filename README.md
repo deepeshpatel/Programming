@@ -107,8 +107,8 @@ class Example {
              .numbers()
              .fromSymbols("HT")
              .ofSize(3)
-            .withStartingValue(2)
-            .andSkipEvery(2)          
+             .withStartingValue(2)
+             .andSkipEvery(2) //-ve values are supported       
              .build();
         
         for(String s: itr) {

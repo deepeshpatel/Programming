@@ -1,9 +1,12 @@
 package outside;
 
-import algo.sequence.Sequence;
+import com.sutra.algo.sequence.Sequence;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Spliterator;
+import java.util.stream.Collectors;
+import java.util.stream.StreamSupport;
 
 public class SequenceTest {
 
@@ -12,6 +15,7 @@ public class SequenceTest {
                 .permutation()
                 .from("ABC")
                 .build();
+
 
         System.out.println("----------------------");
         System.out.println("String Permutations");
@@ -37,6 +41,7 @@ public class SequenceTest {
                 .from("ABC")
                 .ofSize(2)
                 .build();
+
 
         System.out.println("----------------------");
         System.out.println("String Combinations");
@@ -67,33 +72,36 @@ public class SequenceTest {
                 .andSkipEvery(4)
                 .build();
 
-        System.out.println("----------------------");
-        System.out.println("Number sequence using symbols");
-        for(String s: itr1) {
-            System.out.println(s);
-        }
+        List<String> list = StreamSupport.stream((Spliterator<String>)itr1, false).collect(Collectors.toList());
+
+        System.out.println(list);
+//        System.out.println("----------------------");
+//        System.out.println("Number sequence using symbols");
+//        for(String s: itr1) {
+//            System.out.println(s);
+//        }
 
 
-        Iterable<String> itr2 = Sequence
-                .numbers()
-                .ofBase(8)
-                .ofSize(3)
-                .withStartingValue(70)
-                .andSkipEvery(-2)
-                .build();
-
-        System.out.println("----------------------");
-        System.out.println("Number sequence using base");
-        for(String s: itr2) {
-            System.out.println(s);
-        }
+//        Iterable<String> itr2 = Sequence
+//                .numbers()
+//                .ofBase(8)
+//                .ofSize(3)
+//                .withStartingValue(70)
+//                .andSkipEvery(-2)
+//                .build();
+//
+//        System.out.println("----------------------");
+//        System.out.println("Number sequence using base");
+//        for(String s: itr2) {
+//            System.out.println(s);
+//        }
 
 
     }
 
     public static void main(String[] args) {
         testNumbers();
-        testCombination();
-        testPermutation();
+//        testCombination();
+//        testPermutation();
     }
 }
