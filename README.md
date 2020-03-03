@@ -20,7 +20,6 @@ class Example {
         }        
     }
 }
-
 ```
 ***
 **Permutation Generator for Objects:**
@@ -38,7 +37,6 @@ class Example {
         }        
     }
 }
-
 ```
 ***
 **Combination Generator for String:**
@@ -52,13 +50,11 @@ class Example {
                 .ofSize(2)
                 .build();
     
-    
         for(String s: itr) {
             System.out.println(s);
         }         
     }
 }
-
 ```
 ***
 
@@ -78,21 +74,20 @@ class Example {
         }        
     }
 }
-
 ```
 ***
-**Number Sequence Generator for a give base and size:**
-Following code will print all numbers of base 5 and size 2 lexicographical order. That is from "00" to "44". Symbols are considered starting from 0-9 and A-Z in order.
+**Number Sequence Generator for a given base and size:**
+Following code will print numbers of base 5 and size 2 lexicographical order starting from 4th number and skipping every 5 numbers. Symbols are considered starting from 0-9 and then A-Z in order.
 
 ```java
 class Example {
     public example() {
         Iterable<String> itr = Sequence
             .numbers()
-            .ofBase(10)
+            .ofBase(5)
             .ofSize(2)
             .withStartingValue(4)
-            .andSkipEvery(5 )
+            .andSkipEvery(5)
             .build();
     
         for(String s: itr) {
@@ -100,8 +95,6 @@ class Example {
         }        
     }
 }
-
-
 ```
 ***
 **Number Sequence Generator with given symbols and size:**
@@ -114,6 +107,8 @@ class Example {
              .numbers()
              .fromSymbols("HT")
              .ofSize(3)
+            .withStartingValue(2)
+            .andSkipEvery(2)          
              .build();
         
         for(String s: itr) {
@@ -121,6 +116,4 @@ class Example {
         }       
     }
 }
-
-
 ```

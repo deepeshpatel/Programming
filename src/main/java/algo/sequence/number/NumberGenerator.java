@@ -22,40 +22,15 @@ import java.util.Iterator;
 
 public class NumberGenerator implements Iterable<String>{
 
-    private char[] symbols;
-    private int size;
-    private int startFrom;
-    private int skipEvery;
+    private NumberGeneratorParams params;
 
-    NumberGenerator(char[] symbols, int size, int startFrom, int skipEvery) {
-        init(symbols, size, startFrom, skipEvery);
-    }
-
-    NumberGenerator(int base, int size, int startFrom, int skipEvery) {
-
-        char[] numericSymbols = new char[base];
-
-        for(int i=0; i<base && i<10; i++) {
-            numericSymbols[i] = (char) (i + '0');
-        }
-
-        for(int i=10; i<base; i++) {
-            numericSymbols[i] = (char) ('A' + (i-10));
-        }
-
-        init(numericSymbols, size, startFrom, skipEvery);
-    }
-
-    private void init(char[] symbols, int size, int startFrom, int skipEvery) {
-        this.symbols = symbols;
-        this.size = size;
-        this.startFrom = startFrom;
-        this.skipEvery = skipEvery;
+    NumberGenerator(NumberGeneratorParams params) {
+        this.params = params;
     }
 
     @Override
     public Iterator<String> iterator() {
-        return new Itr(symbols,size, startFrom, skipEvery);
+        return new Itr(params.symbols.toCharArray(),params.size, params.startFrom, params.skipEvery);
     }
 
     static class Itr implements Iterator<String> {
@@ -84,9 +59,14 @@ public class NumberGenerator implements Iterable<String>{
         public String next() {
             String result = indicesToValues(currentValuesAsIndices, symbols);
 
+
+            //TODO: Remove this mess.
+            //Use Consumer functional interface for method selection only once
             if(skipEvery > 0) {
                 nextKthNumber(symbols.length, currentValuesAsIndices, skipEvery);
                 return result;
+            } else if(skipEvery < 0) {
+                previousKthNumber(symbols.length, currentValuesAsIndices, -skipEvery);
             } else {
                 nextNumber(symbols.length, currentValuesAsIndices);
             }
@@ -104,6 +84,30 @@ public class NumberGenerator implements Iterable<String>{
             if(nextK > 0) {
                 hasNext = false;
             }
+        }
+
+        void previousKthNumber(int numOfSymbols, int[] indices, int k) {
+
+            boolean needToDevide = false;
+
+            for (int i = 0; i < indices.length; i++) {
+
+                int current = needToDevide ? indices[i] - 1 : indices[i];
+                int toBeSubtracted = k % numOfSymbols;
+                k = k / numOfSymbols;
+
+                int result = current - toBeSubtracted;
+                needToDevide = false;
+
+                if (result < 0) {
+                    result = (numOfSymbols + current) - toBeSubtracted;
+                    needToDevide = true;
+                }
+
+                indices[i] = result;
+            }
+
+            hasNext = !needToDevide;
         }
 
         void nextNumber(int numOfSymbols,  int[] indices)  {

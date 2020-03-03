@@ -41,7 +41,6 @@ public class NumberGeneratorBuilder {
     }
 
     public NumberGeneratorBuilder andSkipEvery(int skipEvery) {
-        if(skipEvery < 0 ) throw new IllegalArgumentException(" skipEvery value must be >=0");
         this.skipEvery = skipEvery;
         return this;
     }
@@ -64,10 +63,14 @@ public class NumberGeneratorBuilder {
             throw new IllegalArgumentException("Must specify base of NumberSystem or Symbols");
         }
 
-        if(symbols != null) {
-            return new NumberGenerator(symbols.toCharArray(), size, startFrom, skipEvery);
-        }
+        NumberGeneratorParams params;
 
-        return new NumberGenerator(base, size, startFrom, skipEvery);
+        if(symbols != null) {
+            params = new NumberGeneratorParams(symbols, size, startFrom, skipEvery);
+        } else {
+            params = new NumberGeneratorParams(base, size, startFrom, skipEvery);
+        }
+        return new NumberGenerator(params);
+
     }
 }

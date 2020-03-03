@@ -60,10 +60,11 @@ public class SequenceTest {
     private static void testNumbers() {
         Iterable<String> itr1 = Sequence
                 .numbers()
-                .fromSymbols("HT")
-                .ofSize(3)
+                .ofBase(8)
+                //.fromSymbols("HT")
+                .ofSize(2)
                 .withStartingValue(3)
-                .andSkipEvery(0)
+                .andSkipEvery(4)
                 .build();
 
         System.out.println("----------------------");
@@ -75,10 +76,10 @@ public class SequenceTest {
 
         Iterable<String> itr2 = Sequence
                 .numbers()
-                .ofBase(10)
-                .ofSize(2)
-                .withStartingValue(4)
-                .andSkipEvery(0)
+                .ofBase(8)
+                .ofSize(3)
+                .withStartingValue(70)
+                .andSkipEvery(-2)
                 .build();
 
         System.out.println("----------------------");
