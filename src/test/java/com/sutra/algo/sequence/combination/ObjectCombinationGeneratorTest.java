@@ -1,50 +1,105 @@
 package com.sutra.algo.sequence.combination;
 
+import com.sutra.algo.sequence.Sequence;
+import com.sutra.algo.struct.Order;
 import org.junit.Assert;
 import org.junit.Test;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.stream.Collectors;
 
 public class ObjectCombinationGeneratorTest {
 
-    private static <T> String listToString(List<T> list) {
-        return list.toString();
-    }
-
     @Test
-    public void shouldReturn3Combinations() {
-        List<String> list = Arrays.asList("Red", "Green", "Blue");
-        ObjectCombinationGenerator<String> cg = new ObjectCombinationGenerator<>(list, 2);
+    public void shouldReturnCombinationsInInputOrder() {
 
-        String[] result = new String[] {
+        List<String> input = Arrays.asList("Red", "Green", "Blue");
+
+        String[] expected = new String[]{
                 "[Red, Green]",
                 "[Red, Blue]",
                 "[Green, Blue]"
         };
 
-        int i=0;
-        for (List<String> l: cg ) {
-            Assert.assertEquals(result[i++], l.toString());
-        }
+        int size = 2;
+
+        Iterable<List<String>> itr = Sequence
+                .combination()
+                .from(input)
+                .ofSize(size)
+                .build();
+
+        assertResults(expected, itr);
     }
 
     @Test
-    public void testStreamOFCombinations() {
-        String[] expected = new String[] {"[Z, B]", "[Z, C]","[B, C]"};
-        List<String> input = Arrays.asList("Z", "B", "C");
+    public void shouldReturnCombinationsInLexOrder() {
 
-        List<String> output = new ObjectCombinationGenerator<>(input, 2)
-                .stream()
-                .map(ObjectCombinationGeneratorTest::listToString)
-                .collect(Collectors.toList());
+        List<String> input = Arrays.asList("Red", "Green", "Blue");
 
-        int i=0;
-        for(String s: output) {
-            Assert.assertEquals(expected[i++], s);
-        }
+        String[] expected = new String[]{
+                "[Blue, Green]",
+                "[Blue, Red]",
+                "[Green, Red]"
+        };
 
+        int size = 2;
+
+        Iterable<List<String>> itr = Sequence
+                .combination()
+                .from(input)
+                .ofSize(size)
+                .orderBy(Order.LEXICAL)
+                .build();
+
+        assertResults(expected, itr);
     }
 
+    @Test(expected = IllegalArgumentException.class)
+    public void shouldThrowExpForSizeGreaterThanInput() {
+
+        List<String> input = new ArrayList<>();
+
+        String[] expected = new String[]{
+                "[Blue, Green]",
+                "[Blue, Red]",
+                "[Green, Red]"
+        };
+
+        int size = 2;
+
+        Iterable<List<String>> itr = Sequence
+                .combination()
+                .from(input)
+                .ofSize(size)
+                .orderBy(Order.LEXICAL)
+                .build();
+
+        assertResults(expected, itr);
+    }
+
+    @Test
+    public void shouldReturnEmptyListForSizeZero() {
+
+        List<String> input = new ArrayList<>();
+        String[] expected = new String[]{"[]"};
+        int size = 0;
+
+        Iterable<List<String>> itr = Sequence
+                .combination()
+                .from(input)
+                .ofSize(size)
+                .orderBy(Order.LEXICAL)
+                .build();
+
+        assertResults(expected, itr);
+    }
+
+    private void assertResults(String[] expected, Iterable<List<String>> itr) {
+        int i=0;
+        for (List<String> list : itr) {
+            Assert.assertEquals(expected[i++], list.toString());
+        }
+    }
 }

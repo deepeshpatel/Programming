@@ -1,6 +1,7 @@
 package outside;
 
 import com.sutra.algo.sequence.Sequence;
+import com.sutra.algo.struct.Order;
 
 import java.util.Arrays;
 import java.util.List;
@@ -13,7 +14,8 @@ public class SequenceTest {
     private static void testPermutation() {
         Iterable<String> pItr1 = Sequence
                 .permutation()
-                .from("ABC")
+                .from("CAB")
+                .orderBy(Order.LEXICAL)
                 .build();
 
 
@@ -25,7 +27,8 @@ public class SequenceTest {
 
         Iterable<List<String>> pItr2 = Sequence
                 .permutation()
-                .from(Arrays.asList("A","B","C"))
+                .from(Arrays.asList("Z", "A", "B", "C"))
+                .orderBy(Order.LEXICAL)
                 .build();
 
         System.out.println("----------------------");
@@ -38,8 +41,9 @@ public class SequenceTest {
     private static void testCombination() {
         Iterable<String> itr = Sequence
                 .combination()
-                .from("ABC")
+                .from("DCBA")
                 .ofSize(2)
+                .orderBy(Order.LEXICAL)
                 .build();
 
 
@@ -53,8 +57,9 @@ public class SequenceTest {
         System.out.println("Object Combinations");
         Iterable<List<String>> itr2 = Sequence
                 .combination()
-                .from(Arrays.asList("A", "B", "C"))
+                .from(Arrays.asList("Z", "B", "C"))
                 .ofSize(2)
+                .orderBy(Order.LEXICAL)
                 .build();
 
         for(List<String> list: itr2) {
@@ -100,10 +105,11 @@ public class SequenceTest {
     }
 
     public static void main(String[] args) {
-        testRandom();
-        //testNumbers();
+//        testRandom();
+//        testNumbers();
+        testPermutation();
 //        testCombination();
-//        testPermutation();
+
     }
 
     private static void testRandom() {

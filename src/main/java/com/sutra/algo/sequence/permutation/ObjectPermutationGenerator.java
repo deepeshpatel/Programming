@@ -25,10 +25,11 @@ import com.sutra.algo.util.Util;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.NoSuchElementException;
 
 public class ObjectPermutationGenerator<T> implements Iterable<List<T>> {
 
-    private List<T> seed = new ArrayList<>();
+    private List<T> seed;
 
     ObjectPermutationGenerator(List<T> seed, Order order) {
 
@@ -38,10 +39,6 @@ public class ObjectPermutationGenerator<T> implements Iterable<List<T>> {
             this.seed= new ArrayList<>();
             this.seed.addAll(seed);
         }
-    }
-
-    ObjectPermutationGenerator(List<T> seed) {
-        this.seed.addAll(seed);
     }
 
     @Override
@@ -73,6 +70,11 @@ public class ObjectPermutationGenerator<T> implements Iterable<List<T>> {
 
         @Override
         public List<T> next() {
+
+            if (!hasNext()) {
+                throw new NoSuchElementException("Reached to maximum permutation");
+            }
+
             int[] old = indices;
             indices = PermutationAlgorithm.nextPermutation(indices);
             return new IndexedListWrapper<>(values, old);

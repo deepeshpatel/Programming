@@ -1,29 +1,86 @@
 package com.sutra.algo.sequence.permutation;
 
+import com.sutra.algo.sequence.Sequence;
+import com.sutra.algo.struct.Order;
+import org.junit.Assert;
 import org.junit.Test;
 
-import static org.junit.Assert.assertEquals;
+import java.util.Iterator;
+import java.util.NoSuchElementException;
 
 public class StringPermutationGeneratorTest {
 
     @Test
-    public void shouldGenerate6PermutationsForLength3() {
+    public void shouldReturn2ValuesInDescendingOrder() {
 
-        String[] values = new String[] {"ABC","ACB","BAC","BCA","CAB","CBA"};
-        StringPermutationGenerator pg = new StringPermutationGenerator("ABC");
+        String input = "BA";
+        String[] expected = new String[]{"BA", "AB"};
 
-        int i = 0;
-        for(String s:pg) {
-            assertEquals(values[i++], s);
-        }
+        Iterable<String> itr = Sequence
+                .permutation()
+                .from(input)
+                .build();
+
+        assertResults(expected, itr);
     }
 
     @Test
-    public void shouldGenerateFiveFactorialPermutations() {
+    public void shouldReturn2ValuesInAscendingOrder() {
+
+        String input = "BAC";
+        String[] expected = new String[]{"ABC", "ACB", "BAC", "BCA", "CAB", "CBA"};
+
+        Iterable<String> itr = Sequence
+                .permutation()
+                .from(input)
+                .orderBy(Order.LEXICAL)
+                .build();
+
+        assertResults(expected, itr);
+    }
+
+    @Test
+    public void shouldReturnEmptyString() {
+
+        String input = "";
+        String[] expected = new String[]{""};
+
+        Iterable<String> itr = Sequence
+                .permutation()
+                .from(input)
+                .orderBy(Order.LEXICAL)
+                .build();
+
+        assertResults(expected, itr);
+    }
+
+    @Test(expected = NullPointerException.class)
+    public void shouldThrowExceptionForNullInputString() {
+
+        Sequence
+                .permutation()
+                .from((String) null)
+                .orderBy(Order.LEXICAL)
+                .build();
+    }
+
+    @Test(expected = NoSuchElementException.class)
+    public void shouldThrowExceptionForOutOfBoundsIteration() {
+
+        Iterator<String> itr = Sequence
+                .permutation()
+                .from("A")
+                .build().iterator();
+
+        itr.next();
+        itr.next();
+    }
+
+    private void assertResults(String[] expected, Iterable<String> itr) {
+
         int i = 0;
-        for(String ignored : new StringPermutationGenerator("ABCDE")) {
-            i++;
+        for (String s : itr) {
+            Assert.assertEquals(expected[i++], s);
         }
-        assertEquals(120, i);
     }
 }

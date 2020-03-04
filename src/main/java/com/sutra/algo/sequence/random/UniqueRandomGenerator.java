@@ -9,7 +9,7 @@ public class UniqueRandomGenerator implements Iterable<Integer> {
     private int from;
     private int to;
 
-    public UniqueRandomGenerator(int from, int to) {
+    private UniqueRandomGenerator(int from, int to) {
         this.from = from;
         this.to = to;
     }
@@ -24,7 +24,7 @@ public class UniqueRandomGenerator implements Iterable<Integer> {
         private ArrayList<Integer> values;
         private Random random = new Random();
 
-        public Itr(int from, int to) {
+        Itr(int from, int to) {
             values = new ArrayList<>(to-from);
             for(int i=from; i<=to; i++) {
                 values.add(i);

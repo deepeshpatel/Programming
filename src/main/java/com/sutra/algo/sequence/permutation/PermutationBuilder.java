@@ -32,7 +32,6 @@ public class PermutationBuilder {
         return new StringPermutationBuilder(data);
     }
 
-
     public static class ObjectPermutationBuilder<T> {
         List<T> data;
         Order order;
@@ -52,8 +51,8 @@ public class PermutationBuilder {
     }
 
     public static class StringPermutationBuilder {
-        String data;
-        Order order;
+        private String data;
+        private Order order;
 
         public StringPermutationBuilder orderBy(Order order) {
             this.order = order;

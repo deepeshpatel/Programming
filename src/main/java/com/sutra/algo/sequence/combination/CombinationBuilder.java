@@ -33,8 +33,8 @@ public class CombinationBuilder {
     }
 
     public static abstract class AbstractCombinationBuilder<T> {
-        int size;
-        Order order = Order.INPUT;
+        private int size;
+        private Order order = Order.INPUT;
 
         public AbstractCombinationBuilder<T> ofSize(int r) {
             this.size = r;
@@ -52,7 +52,7 @@ public class CombinationBuilder {
 
     public static class ObjectCombinationBuilder<T> extends AbstractCombinationBuilder<List<T>>{
 
-        List<T> data;
+        private List<T> data;
 
         ObjectCombinationBuilder(List<T> data) {
             this.data = data;
@@ -60,23 +60,21 @@ public class CombinationBuilder {
 
         @Override
         public Iterable<List<T>> build() {
-            return new ObjectCombinationGenerator<>(data, size, order);
+            return new ObjectCombinationGenerator<>(data, super.size, super.order);
         }
-
     }
 
     public static class StringCombinationBuilder extends AbstractCombinationBuilder<String> {
 
-        String data;
+        private String data;
 
         StringCombinationBuilder(String data) {
             this.data = data;
         }
 
-
         @Override
         public Iterable<String> build() {
-            return new StringCombinationGenerator(data, size, order);
+            return new StringCombinationGenerator(data, super.size, super.order);
         }
 
     }

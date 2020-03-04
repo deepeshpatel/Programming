@@ -18,7 +18,6 @@
 
 package com.sutra.algo.sequence.permutation;
 
-
 import com.sun.istack.internal.NotNull;
 import com.sutra.algo.struct.Order;
 import com.sutra.algo.util.Util;
@@ -29,8 +28,6 @@ import java.util.NoSuchElementException;
 /**
  * @author Deepesh Patel
  * Starting from a input string, generates all permutaions of a given string
- * which are lexicographically greater than
- * a given string.
  *
  * For example:
  * <code>
@@ -40,15 +37,10 @@ import java.util.NoSuchElementException;
  * </code>
  * will generate following 6 strings
  * ABC,ACB,BAC,BCA,CAB,CBA
- * Note that if you start from CAB it will generate only 2 values CAB and CBA
  */
 public class StringPermutationGenerator implements Iterable<String> {
 
     private String seed;
-
-    StringPermutationGenerator(@NotNull String seed){
-        this.seed = seed;
-    }
 
     StringPermutationGenerator(@NotNull String seed, Order order){
         this.seed = (order == Order.LEXICAL) ? Util.toLexString(seed) : seed;
@@ -61,27 +53,38 @@ public class StringPermutationGenerator implements Iterable<String> {
 
     private static class Itr implements Iterator<String> {
 
-        private String currentVal;
+        private String initialValue;
+        private int[] indices;
+
 
         Itr(String currentVal) {
-            this.currentVal = currentVal;
+            this.initialValue = currentVal;
+            createIndices();
+        }
+
+        private void createIndices() {
+            indices = new int[initialValue.length()];
+            for (int i = 0; i < indices.length; i++) {
+                indices[i] = i;
+            }
         }
 
         @Override
         public boolean hasNext() {
-            return  !currentVal.equals("-1");
+            return indices != null;
         }
 
         @Override
         public String next() {
 
-            if(! hasNext()) {
+            if (!hasNext()) {
                 throw new NoSuchElementException("Reached to maximum permutation");
             }
 
-            String previous = currentVal;
-            currentVal = PermutationAlgorithm.nextPermutation(previous);
-            return previous;
+            int[] oldIndices = indices;
+            indices = PermutationAlgorithm.nextPermutation(indices);
+            char[] newChars = Util.indicesToValues(initialValue.toCharArray(), oldIndices);
+            return new String(newChars);
         }
     }
 }

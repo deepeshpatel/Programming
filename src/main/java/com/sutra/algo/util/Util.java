@@ -16,6 +16,13 @@ public class Util {
         T[] values = (T[]) list.toArray();
         Arrays.sort(values);
         return Arrays.asList(values);
+    }
 
+    public static char[] indicesToValues(char[] input, int[] indices) {
+        char[] output = new char[input.length];
+        for (int i = 0; i < output.length; i++) {
+            output[i] = input[indices[i]];
+        }
+        return output;
     }
 }

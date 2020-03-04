@@ -26,8 +26,6 @@ import com.sutra.algo.util.Util;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
-import java.util.stream.Stream;
-import java.util.stream.StreamSupport;
 
 public class ObjectCombinationGenerator<T> implements Iterable<List<T>> {
 
@@ -50,17 +48,13 @@ public class ObjectCombinationGenerator<T> implements Iterable<List<T>> {
      *
      * @param seed List of N items
      * @param r number of combinations from N items. r must be <= N
+     * @param order order of output. Input order or Lexicographical order
      */
-    ObjectCombinationGenerator(@NotNull List<T> seed, int r) {
-        this(seed, r, Order.INPUT);
-    }
-
     ObjectCombinationGenerator(@NotNull List<T> seed, int r, Order order) {
 
         if (r > seed.size())
             throw new IllegalArgumentException("Can't produce combinations of length " +
                     r + " from list of length " + seed.size());
-
 
         this.r = r;
 
@@ -70,10 +64,6 @@ public class ObjectCombinationGenerator<T> implements Iterable<List<T>> {
             this.seed= new ArrayList<>();
             this.seed.addAll(seed);
         }
-    }
-
-    Stream<List<T>> stream() {
-        return StreamSupport.stream(this.spliterator(),false);
     }
 
     @Override

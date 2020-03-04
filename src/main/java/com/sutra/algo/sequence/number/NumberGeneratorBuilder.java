@@ -60,7 +60,13 @@ public class NumberGeneratorBuilder {
     public Iterable<String> build() {
 
         if(symbols == null && base == 0) {
-            throw new IllegalArgumentException("Must specify base of NumberSystem or Symbols");
+            throw new IllegalArgumentException("Must specify either base of the number " +
+                    "system or Symbols used to create number system ");
+        }
+
+        if (symbols != null && base != 0) {
+            throw new IllegalArgumentException("You have specified both base and symbols" +
+                    " for the number system. specify only one of them");
         }
 
         NumberGeneratorParams params;

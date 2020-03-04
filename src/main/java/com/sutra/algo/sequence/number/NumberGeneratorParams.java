@@ -7,7 +7,6 @@ class NumberGeneratorParams {
     int startFrom;
     int skipEvery;
 
-
     NumberGeneratorParams(String symbols, int size, int startFrom, int skipEvery) {
         init(symbols, size, startFrom, skipEvery);
     }

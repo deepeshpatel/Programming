@@ -23,9 +23,6 @@ import com.sutra.algo.struct.Order;
 
 import java.util.Arrays;
 import java.util.Iterator;
-import java.util.stream.Stream;
-import java.util.stream.StreamSupport;
-
 
 public class StringCombinationGenerator implements Iterable<String> {
 
@@ -48,11 +45,8 @@ public class StringCombinationGenerator implements Iterable<String> {
      *
      * @param seed List of N items
      * @param r number of combinations from N items. r must be <= N
+     * @param order order of output. Input order or Lexicographical order
      */
-    StringCombinationGenerator(@NotNull String seed, int r) {
-        this(seed, r, Order.INPUT);
-    }
-
     StringCombinationGenerator(@NotNull String seed, int r, Order order) {
 
     if(r > seed.length())
@@ -63,8 +57,7 @@ public class StringCombinationGenerator implements Iterable<String> {
     this.r = r;
     }
 
-
-    void setSeed(String seed, Order order) {
+    private void setSeed(String seed, Order order) {
 
         if(order == Order.INPUT) {
          this.seed = seed;
@@ -73,10 +66,6 @@ public class StringCombinationGenerator implements Iterable<String> {
             Arrays.sort(input);
             this.seed = new String(input);
         }
-    }
-
-    Stream<String> stream() {
-        return StreamSupport.stream(this.spliterator(),false);
     }
 
     @Override
