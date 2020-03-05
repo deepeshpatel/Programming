@@ -19,7 +19,7 @@
 package com.sutra.algo.sequence.permutation;
 
 import com.sun.istack.internal.NotNull;
-import com.sutra.algo.struct.Order;
+import com.sutra.algo.util.Order;
 import com.sutra.algo.util.Util;
 
 import java.util.Iterator;

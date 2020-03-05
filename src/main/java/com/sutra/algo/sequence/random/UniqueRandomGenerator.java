@@ -53,21 +53,17 @@ public class UniqueRandomGenerator implements Iterable<Integer> {
         int from;
         int to;
 
-        public Builder from(int from) {
+        public Builder inRange(int from, int to) {
             this.from = from;
-            return this;
-        }
-
-        public Builder to(int to) {
             this.to = to;
-            return this;
-        }
-
-        public Iterable<Integer> build() {
             if(to < from ) {
                 throw new IllegalArgumentException("parameter 'to' must be greater than 'from'");
             }
 
+            return this;
+        }
+
+        public Iterable<Integer> build() {
             return new UniqueRandomGenerator(from, to);
         }
     }

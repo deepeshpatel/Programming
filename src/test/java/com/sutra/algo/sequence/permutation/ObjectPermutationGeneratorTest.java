@@ -1,7 +1,7 @@
 package com.sutra.algo.sequence.permutation;
 
 import com.sutra.algo.sequence.Sequence;
-import com.sutra.algo.struct.Order;
+import com.sutra.algo.util.Order;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -16,8 +16,7 @@ public class ObjectPermutationGeneratorTest {
         String[] expected = new String[]{"[B, A]", "[A, B]"};
 
         Iterable<List<String>> itr = Sequence
-                .permutation()
-                .from(input)
+                .permutationsOf(input)
                 .build();
 
         assertResults(expected, itr);
@@ -30,9 +29,8 @@ public class ObjectPermutationGeneratorTest {
         String[] expected = new String[]{"[A, B]","[B, A]"};
 
         Iterable<List<String>> itr = Sequence
-                .permutation()
-                .from(input)
-                .orderBy(Order.LEXICAL)
+                .permutationsOf(input)
+                .withOrder(Order.LEXICAL)
                 .build();
 
         assertResults(expected, itr);
@@ -45,9 +43,8 @@ public class ObjectPermutationGeneratorTest {
         String[] expected = new String[]{"[]"};
 
         Iterable<List<String>> itr = Sequence
-                .permutation()
-                .from(input)
-                .orderBy(Order.LEXICAL)
+                .combinationsOf(input)
+                .withOrder(Order.LEXICAL)
                 .build();
 
         assertResults(expected, itr);
@@ -57,9 +54,8 @@ public class ObjectPermutationGeneratorTest {
     public void shouldThrowExceptionForNullInputString() {
 
         Sequence
-                .permutation()
-                .from((List<String>) null)
-                .orderBy(Order.LEXICAL)
+                .combinationsOf((List<String>) null)
+                .withOrder(Order.LEXICAL)
                 .build();
     }
 
@@ -67,8 +63,7 @@ public class ObjectPermutationGeneratorTest {
     public void shouldThrowExceptionForOutOfBoundsIteration() {
 
         Iterator<List<String>> itr = Sequence
-                .permutation()
-                .from(new ArrayList<String>())
+                .permutationsOf(new ArrayList<String>())
                 .build().iterator();
 
         itr.next();

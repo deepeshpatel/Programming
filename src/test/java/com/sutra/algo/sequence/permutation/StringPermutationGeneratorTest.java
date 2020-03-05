@@ -1,7 +1,7 @@
 package com.sutra.algo.sequence.permutation;
 
 import com.sutra.algo.sequence.Sequence;
-import com.sutra.algo.struct.Order;
+import com.sutra.algo.util.Order;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -17,8 +17,7 @@ public class StringPermutationGeneratorTest {
         String[] expected = new String[]{"BA", "AB"};
 
         Iterable<String> itr = Sequence
-                .permutation()
-                .from(input)
+                .permutationsOf(input)
                 .build();
 
         assertResults(expected, itr);
@@ -31,9 +30,8 @@ public class StringPermutationGeneratorTest {
         String[] expected = new String[]{"ABC", "ACB", "BAC", "BCA", "CAB", "CBA"};
 
         Iterable<String> itr = Sequence
-                .permutation()
-                .from(input)
-                .orderBy(Order.LEXICAL)
+                .permutationsOf(input)
+                .withOrder(Order.LEXICAL)
                 .build();
 
         assertResults(expected, itr);
@@ -46,9 +44,8 @@ public class StringPermutationGeneratorTest {
         String[] expected = new String[]{""};
 
         Iterable<String> itr = Sequence
-                .permutation()
-                .from(input)
-                .orderBy(Order.LEXICAL)
+                .permutationsOf(input)
+                .withOrder(Order.LEXICAL)
                 .build();
 
         assertResults(expected, itr);
@@ -58,9 +55,8 @@ public class StringPermutationGeneratorTest {
     public void shouldThrowExceptionForNullInputString() {
 
         Sequence
-                .permutation()
-                .from((String) null)
-                .orderBy(Order.LEXICAL)
+                .permutationsOf((String) null)
+                .withOrder(Order.LEXICAL)
                 .build();
     }
 
@@ -68,9 +64,9 @@ public class StringPermutationGeneratorTest {
     public void shouldThrowExceptionForOutOfBoundsIteration() {
 
         Iterator<String> itr = Sequence
-                .permutation()
-                .from("A")
+                .permutationsOf("A")
                 .build().iterator();
+
 
         itr.next();
         itr.next();

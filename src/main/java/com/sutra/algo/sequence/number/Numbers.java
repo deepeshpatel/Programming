@@ -18,7 +18,7 @@
 
 package com.sutra.algo.sequence.number;
 
-public class NumberGeneratorBuilder {
+public class Numbers {
 
     private int startFrom;
     private int skipEvery;
@@ -26,33 +26,39 @@ public class NumberGeneratorBuilder {
     private int size;
     private String symbols;
 
-    public NumberGeneratorBuilder ofBase(int base) {
+    public Numbers ofBase(int base) {
         if(base <= 0 )
             throw new IllegalArgumentException(" base must be > 0");
         this.base = base;
         return this;
     }
 
-    public NumberGeneratorBuilder ofSize(int size) {
+    public Numbers ofSize(int size) {
         if(size <= 0 )
             throw new IllegalArgumentException(" size must be > 0");
         this.size = size;
         return this;
     }
 
-    public NumberGeneratorBuilder andSkipEvery(int skipEvery) {
+    public Numbers andSkipEvery(int skipEvery) {
         this.skipEvery = skipEvery;
         return this;
     }
 
-    public NumberGeneratorBuilder withStartingValue(int startFrom) {
+    public Numbers withStartingValue(int startFrom) {
         if(startFrom < 0 )
             throw new IllegalArgumentException(" StartingValue must be >=0");
         this.startFrom = startFrom;
         return this;
     }
 
-    public NumberGeneratorBuilder fromSymbols(String symbols) {
+    public Numbers withSymbols(String symbols) {
+
+        if (symbols == null || symbols.isEmpty()) {
+            throw new IllegalArgumentException("A non null and non empty string is required" +
+                    " for creating symbols of number system");
+        }
+
         this.symbols = symbols;
         return this;
     }

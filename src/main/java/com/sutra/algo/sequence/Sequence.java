@@ -18,27 +18,66 @@
 
 package com.sutra.algo.sequence;
 
-import com.sutra.algo.sequence.combination.CombinationBuilder;
-import com.sutra.algo.sequence.number.NumberGeneratorBuilder;
-import com.sutra.algo.sequence.permutation.PermutationBuilder;
+import com.sutra.algo.sequence.combination.Combinations.ObjectCombinations;
+import com.sutra.algo.sequence.combination.Combinations.StringCombinations;
+import com.sutra.algo.sequence.number.Numbers;
+import com.sutra.algo.sequence.permutation.Permutations;
+import com.sutra.algo.sequence.permutation.Permutations.ObjectPermutations;
 import com.sutra.algo.sequence.random.UniqueRandomGenerator;
 
+import java.util.Collection;
+
+/**
+ * @author Deepesh Patel
+ * This class provides various useful utilitis to generate sequence of
+ * permutations, combinations, unique random numbers, number system of given base etc
+ * of
+ */
 public class Sequence {
 
-    public static CombinationBuilder combination() {
-        return new CombinationBuilder();
+    /**
+     * Utility to configure and build combination generator from a given String
+     * Following code example will generate all combinations of size 2 in input order.
+     * That is : CB, CA and BA.
+     * <p>
+     * Order.LEXICAL will generate output in dictionary order
+     * That is: AB, AC and BC
+     *
+     * @ <code>
+     * <p>
+     * Iterable<String> itr = Sequence
+     * .combinationsOf("CBA")
+     * .ofSize(2)
+     * .withOrder(Order.INPUT)
+     * .build
+     * <p>
+     * for(String s: itr) {
+     * System.out.println(s)
+     * }
+     *
+     * </code>
+     */
+    public static StringCombinations combinationsOf(String data) {
+        return new StringCombinations(data);
     }
 
-    public static PermutationBuilder permutation() {
-        return new PermutationBuilder();
+    public static <T> ObjectCombinations<T> combinationsOf(Collection<T> data) {
+        return new ObjectCombinations<>(data);
     }
 
-    public static NumberGeneratorBuilder numbers() {
-        return new NumberGeneratorBuilder();
+    public static <T> ObjectPermutations<T> permutationsOf(Collection<T> data) {
+        return new ObjectPermutations<>(data);
+    }
+
+    public static Permutations.StringPermutations permutationsOf(String data) {
+        return new Permutations.StringPermutations(data);
+    }
+
+    public static Numbers numbers() {
+        return new Numbers();
     }
 
     public static UniqueRandomGenerator.Builder uniqueRandomNumbers() {
         return new UniqueRandomGenerator.Builder();
     }
-
 }

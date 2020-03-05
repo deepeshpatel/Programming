@@ -16,9 +16,7 @@
  * limitations under the License.
  */
 
-package com.sutra.algo.struct;
-
-import com.sun.istack.internal.NotNull;
+package com.sutra.algo.util;
 
 import java.util.*;
 
@@ -27,7 +25,7 @@ public class IndexedListWrapper<T> implements List<T> {
     private List<T> data;
     private int[] indices;
 
-    public IndexedListWrapper(@NotNull List<T> data, int[] indices) {
+    public IndexedListWrapper(List<T> data, int[] indices) {
         this.data = data;
         this.indices = indices;
     }

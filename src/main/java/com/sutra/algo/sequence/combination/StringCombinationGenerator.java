@@ -19,9 +19,9 @@
 package com.sutra.algo.sequence.combination;
 
 import com.sun.istack.internal.NotNull;
-import com.sutra.algo.struct.Order;
+import com.sutra.algo.util.Order;
+import com.sutra.algo.util.Util;
 
-import java.util.Arrays;
 import java.util.Iterator;
 
 public class StringCombinationGenerator implements Iterable<String> {
@@ -58,14 +58,7 @@ public class StringCombinationGenerator implements Iterable<String> {
     }
 
     private void setSeed(String seed, Order order) {
-
-        if(order == Order.INPUT) {
-         this.seed = seed;
-        } else {
-            char[] input = seed.toCharArray();
-            Arrays.sort(input);
-            this.seed = new String(input);
-        }
+        this.seed = (order == Order.LEXICAL) ? Util.toLexString(seed) : seed;
     }
 
     @Override
@@ -101,15 +94,8 @@ public class StringCombinationGenerator implements Iterable<String> {
         public String next() {
             int[] old = indices;
             indices = CombinationAlgorithm.nextCombination(indices, seed.length);
-            return indicesToString(seed, old);
-        }
-
-        private String indicesToString(char[] seed, int[] indices) {
-            char[] result = new char[indices.length];
-            for(int i=0; i<result.length; i++) {
-                result[i] = seed[indices[i]];
-            }
-            return new String(result);
+            char[] output = Util.indicesToValues(seed, old);
+            return new String(output);
         }
     }
 }

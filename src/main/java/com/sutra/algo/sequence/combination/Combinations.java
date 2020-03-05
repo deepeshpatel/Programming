@@ -18,43 +18,33 @@
 
 package com.sutra.algo.sequence.combination;
 
-import com.sutra.algo.struct.Order;
+import com.sutra.algo.util.Order;
 
+import java.util.Collection;
 import java.util.List;
 
-public class CombinationBuilder {
+public abstract class Combinations<T> {
 
-    public <T> ObjectCombinationBuilder<T> from(List<T> data) {
-        return new ObjectCombinationBuilder<>(data);
+    private int size;
+    private Order order = Order.INPUT;
+
+    public Combinations<T> ofSize(int r) {
+        this.size = r;
+        return this;
     }
 
-    public StringCombinationBuilder from(String data) {
-        return new StringCombinationBuilder(data);
+    public Combinations<T> withOrder(Order order) {
+        this.order = order;
+        return this;
     }
 
-    public static abstract class AbstractCombinationBuilder<T> {
-        private int size;
-        private Order order = Order.INPUT;
+    abstract public Iterable<T> build();
 
-        public AbstractCombinationBuilder<T> ofSize(int r) {
-            this.size = r;
-            return this;
-        }
+    public static class ObjectCombinations<T> extends Combinations<List<T>> {
 
-        public AbstractCombinationBuilder<T> orderBy(Order order) {
-            this.order = order;
-            return this;
-        }
+        private Collection<T> data;
 
-        abstract public Iterable<T> build();
-
-    }
-
-    public static class ObjectCombinationBuilder<T> extends AbstractCombinationBuilder<List<T>>{
-
-        private List<T> data;
-
-        ObjectCombinationBuilder(List<T> data) {
+        public ObjectCombinations(Collection<T> data) {
             this.data = data;
         }
 
@@ -64,11 +54,11 @@ public class CombinationBuilder {
         }
     }
 
-    public static class StringCombinationBuilder extends AbstractCombinationBuilder<String> {
+    public static class StringCombinations extends Combinations<String> {
 
         private String data;
 
-        StringCombinationBuilder(String data) {
+        public StringCombinations(String data) {
             this.data = data;
         }
 

@@ -1,4 +1,4 @@
-package com.sutra.algo.struct;
+package com.sutra.algo.util;
 
 public enum Order {
 

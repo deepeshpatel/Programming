@@ -1,7 +1,7 @@
 package com.sutra.algo.sequence.combination;
 
 import com.sutra.algo.sequence.Sequence;
-import com.sutra.algo.struct.Order;
+import com.sutra.algo.util.Order;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -25,8 +25,8 @@ public class ObjectCombinationGeneratorTest {
         int size = 2;
 
         Iterable<List<String>> itr = Sequence
-                .combination()
-                .from(input)
+                .combinationsOf(input)
+                //.of(input)
                 .ofSize(size)
                 .build();
 
@@ -47,10 +47,9 @@ public class ObjectCombinationGeneratorTest {
         int size = 2;
 
         Iterable<List<String>> itr = Sequence
-                .combination()
-                .from(input)
+                .combinationsOf(input)
                 .ofSize(size)
-                .orderBy(Order.LEXICAL)
+                .withOrder(Order.LEXICAL)
                 .build();
 
         assertResults(expected, itr);
@@ -70,10 +69,9 @@ public class ObjectCombinationGeneratorTest {
         int size = 2;
 
         Iterable<List<String>> itr = Sequence
-                .combination()
-                .from(input)
+                .combinationsOf(input)
                 .ofSize(size)
-                .orderBy(Order.LEXICAL)
+                .withOrder(Order.LEXICAL)
                 .build();
 
         assertResults(expected, itr);
@@ -87,10 +85,9 @@ public class ObjectCombinationGeneratorTest {
         int size = 0;
 
         Iterable<List<String>> itr = Sequence
-                .combination()
-                .from(input)
+                .combinationsOf(input)
                 .ofSize(size)
-                .orderBy(Order.LEXICAL)
+                .withOrder(Order.LEXICAL)
                 .build();
 
         assertResults(expected, itr);

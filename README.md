@@ -14,15 +14,15 @@ Sequence Generators For -
 
 ***
 **Permutation Generator for String:**
-Following code will print all permutations of String "ABC" in lexicographical order
+Following code will print all permutations of String "ABC" in lexicographical order.
 
 ```java
 class Example {
     public example() {
         Iterable<String> pItr = Sequence
-                .permutation()
+                .permutationsOf("CBA")
                 .from("ABC")
-                .orderBy(Order.LEXICAL)
+                .orderBy(Order.LEXICAL) //Or Order.INPUT
                 .build();
         
         for(String s: pItr) {
@@ -38,9 +38,8 @@ Following code will print all permutations of Objects in List in lexicographical
 class Example {
     public example() {
         Iterable<List<String>> pItr = Sequence
-               .permutation()
-               .from(Arrays.asList("A","B","C"))
-               .orderBy(Order.INPUT)
+               .permutationsOf(Arrays.asList("A","B","C"))
+               //.orderBy(Order.INPUT) //Not required. Input is already sorted
                .build();
 
         for(List<String> list: pItr) {
@@ -51,13 +50,13 @@ class Example {
 ```
 ***
 **Combination Generator for String:**
-Following code will print (in lexicographical order) all combinations of substring of size R in a string of size N where R <= N
+Following code will print (in lexicographical order) all combinations
+ of substring of size R in a string of size N where R <= N
 ```java
 class Example {
     public example() {
         Iterable<String> itr = Sequence
-                .combination()
-                .from("ABC")
+                .combinationsOf("ABC")
                 .ofSize(2)
                 .orderBy(Order.LEXICAL)
                 .build();
@@ -76,8 +75,7 @@ Following code will print (in lexicographical order) all combinations of size R 
 class Example {
     public example() {
         Iterable<List<String>> itr = Sequence
-                .combination()
-                .from(Arrays.asList("A", "B", "C"))
+                .combinationsOf(Arrays.asList("A", "B", "C"))
                 .ofSize(2)
                 .orderBy(Order.LEXICAL)
                 .build();
@@ -90,7 +88,9 @@ class Example {
 ```
 ***
 **Number Sequence Generator for a given base and size:**
-Following code will print numbers of base 5 and size 2 lexicographical order starting from 4th number and skipping every 5 numbers. Symbols are considered starting from 0-9 and then A-Z in order.
+Following code will print numbers of base 5 and size 2 in lexicographical order 
+starting from 4th number and skipping every 5 numbers. 
+Symbols are considered starting from 0-9 and then A-Z in order.
 
 ```java
 class Example {
@@ -111,8 +111,9 @@ class Example {
 ```
 ***
 **Number Sequence Generator with given symbols and size:**
-Following code will print all numbers of size 3 for symbols "H" and "T" in lexicographical order.
-That is from "HHH" to "TTT". In this case length of 'symbols' define the base of number system
+Following code will print all numbers of size 3 for symbols "H" and "T" 
+in lexicographical order.That is, from "HHH" to "TTT". 
+In this case length of 'symbols' define the base of number system
 
 ```java
 class Example {
@@ -137,9 +138,9 @@ class Example {
 ```java
 class Example {
     public example() {
-        Iterable<Integer> randomInts = Sequence.uniqueRandomNumbers()
-                .from(-4)
-                .to(4)
+        Iterable<Integer> randomInts = Sequence
+                .uniqueRandomNumbers()
+                .inRange(-4, 4)
                 .build();
 
         for(int i: randomInts) {

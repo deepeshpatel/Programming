@@ -15,8 +15,7 @@ public class UniqueRandomGeneratorTest {
 
         Iterable<Integer> itr = Sequence
                 .uniqueRandomNumbers()
-                .from(from)
-                .to(to)
+                .inRange(from, to)
                 .build();
 
         int valueSum = 0;

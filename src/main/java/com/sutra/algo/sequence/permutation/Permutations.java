@@ -18,48 +18,40 @@
 
 package com.sutra.algo.sequence.permutation;
 
-import com.sutra.algo.struct.Order;
+import com.sutra.algo.util.Order;
 
+import java.util.Collection;
 import java.util.List;
 
-public class PermutationBuilder {
+public abstract class Permutations<T> {
 
-    public <T> ObjectPermutationBuilder<T> from(List<T> data) {
-        return new ObjectPermutationBuilder<>(data);
+    protected Order order = Order.INPUT;
+
+    public Permutations<T> withOrder(Order order) {
+        this.order = order;
+        return this;
     }
 
-    public StringPermutationBuilder from(String data) {
-        return new StringPermutationBuilder(data);
-    }
+    abstract public Iterable<T> build();
 
-    public static class ObjectPermutationBuilder<T> {
-        List<T> data;
-        Order order;
+    public static class ObjectPermutations<T> extends Permutations<List<T>> {
 
-        ObjectPermutationBuilder(List<T> data) {
+        private Collection<T> data;
+
+        public ObjectPermutations(Collection<T> data) {
             this.data = data;
         }
 
-        public ObjectPermutationBuilder<T> orderBy(Order order) {
-            this.order = order;
-            return this;
-        }
-
+        @Override
         public Iterable<List<T>> build() {
             return new ObjectPermutationGenerator<>(data, order);
         }
     }
 
-    public static class StringPermutationBuilder {
+    public static class StringPermutations extends Permutations<String> {
         private String data;
-        private Order order;
 
-        public StringPermutationBuilder orderBy(Order order) {
-            this.order = order;
-            return this;
-        }
-
-        StringPermutationBuilder(String data) {
+        public StringPermutations(String data) {
             this.data = data;
         }
 
@@ -67,5 +59,4 @@ public class PermutationBuilder {
             return new StringPermutationGenerator(data, order);
         }
     }
-
 }

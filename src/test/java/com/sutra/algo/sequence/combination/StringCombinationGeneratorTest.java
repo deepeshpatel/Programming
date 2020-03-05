@@ -1,7 +1,7 @@
 package com.sutra.algo.sequence.combination;
 
 import com.sutra.algo.sequence.Sequence;
-import com.sutra.algo.struct.Order;
+import com.sutra.algo.util.Order;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -15,8 +15,7 @@ public class StringCombinationGeneratorTest {
         int size = 2;
 
         Iterable<String> itr = Sequence
-                .combination()
-                .from(input)
+                .combinationsOf(input)
                 .ofSize(size)
                 .build();
 
@@ -31,10 +30,9 @@ public class StringCombinationGeneratorTest {
         int size = 2;
 
         Iterable<String> itr = Sequence
-                .combination()
-                .from(input)
+                .combinationsOf(input)
                 .ofSize(size)
-                .orderBy(Order.LEXICAL)
+                .withOrder(Order.LEXICAL)
                 .build();
 
         assertResults(expected, itr);
@@ -48,8 +46,7 @@ public class StringCombinationGeneratorTest {
         int size = 0;
 
         Iterable<String> itr = Sequence
-                .combination()
-                .from(input)
+                .combinationsOf(input)
                 .ofSize(size)
                 .build();
 
@@ -64,8 +61,7 @@ public class StringCombinationGeneratorTest {
         int size = 3;
 
         Iterable<String> itr = Sequence
-                .combination()
-                .from(input)
+                .combinationsOf(input)
                 .ofSize(size)
                 .build();
 
@@ -80,8 +76,7 @@ public class StringCombinationGeneratorTest {
         int size = 0;
 
         Iterable<String> itr = Sequence
-                .combination()
-                .from(input)
+                .combinationsOf(input)
                 .ofSize(size)
                 .build();
 

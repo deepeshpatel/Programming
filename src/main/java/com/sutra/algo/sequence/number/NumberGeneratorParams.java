@@ -28,7 +28,7 @@ class NumberGeneratorParams {
 
     private void init(String symbols, int size, int startFrom, int skipEvery) {
         this.symbols = symbols;
-        this.size = size;
+        this.size = size == 0 ? symbols.length() : size;
         this.startFrom = startFrom;
         this.skipEvery = skipEvery;
     }

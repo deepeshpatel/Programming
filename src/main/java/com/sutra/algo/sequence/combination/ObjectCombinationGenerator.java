@@ -18,18 +18,18 @@
 
 package com.sutra.algo.sequence.combination;
 
-import com.sun.istack.internal.NotNull;
-import com.sutra.algo.struct.IndexedListWrapper;
-import com.sutra.algo.struct.Order;
-import com.sutra.algo.util.Util;
+import com.sutra.algo.util.IndexedListWrapper;
+import com.sutra.algo.util.Order;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class ObjectCombinationGenerator<T> implements Iterable<List<T>> {
 
-    private List<T> seed;// = new ArrayList<>();
+    private List<T> seed;
     private int r;
 
     /**
@@ -50,20 +50,17 @@ public class ObjectCombinationGenerator<T> implements Iterable<List<T>> {
      * @param r number of combinations from N items. r must be <= N
      * @param order order of output. Input order or Lexicographical order
      */
-    ObjectCombinationGenerator(@NotNull List<T> seed, int r, Order order) {
+    ObjectCombinationGenerator(Collection<T> seed, int r, Order order) {
 
         if (r > seed.size())
             throw new IllegalArgumentException("Can't produce combinations of length " +
-                    r + " from list of length " + seed.size());
+                    r + " from collection of length " + seed.size());
 
         this.r = r;
+        this.seed = order == Order.INPUT ?
+                new ArrayList<>(seed)
+                : seed.stream().sorted().collect(Collectors.toList());
 
-        if (order == Order.LEXICAL) {
-            this.seed = Util.sorted(seed);
-        } else {
-            this.seed= new ArrayList<>();
-            this.seed.addAll(seed);
-        }
     }
 
     @Override
