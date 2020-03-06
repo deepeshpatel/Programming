@@ -18,7 +18,7 @@
 
 package com.sutra.algo.sequence.combination;
 
-class CombinationAlgorithm {
+class Algorithm {
 
     /**
      * @author Deepesh Patel

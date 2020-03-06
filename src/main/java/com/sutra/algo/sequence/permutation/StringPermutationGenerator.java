@@ -18,12 +18,15 @@
 
 package com.sutra.algo.sequence.permutation;
 
-import com.sun.istack.internal.NotNull;
 import com.sutra.algo.util.Order;
 import com.sutra.algo.util.Util;
 
 import java.util.Iterator;
 import java.util.NoSuchElementException;
+import java.util.stream.Stream;
+import java.util.stream.StreamSupport;
+
+import static com.sutra.algo.sequence.permutation.Algorithm.nextPermutation;
 
 /**
  * @author Deepesh Patel
@@ -42,13 +45,17 @@ public class StringPermutationGenerator implements Iterable<String> {
 
     private String seed;
 
-    StringPermutationGenerator(@NotNull String seed, Order order){
+    private StringPermutationGenerator(String seed, Order order) {
         this.seed = (order == Order.LEXICAL) ? Util.toLexString(seed) : seed;
     }
 
     @Override
     public Iterator<String> iterator() {
         return new Itr(this.seed);
+    }
+
+    public Stream<String> stream() {
+        return StreamSupport.stream(this.spliterator(), false);
     }
 
     private static class Itr implements Iterator<String> {
@@ -82,9 +89,31 @@ public class StringPermutationGenerator implements Iterable<String> {
             }
 
             int[] oldIndices = indices;
-            indices = PermutationAlgorithm.nextPermutation(indices);
+            indices = nextPermutation(indices);
             char[] newChars = Util.indicesToValues(initialValue.toCharArray(), oldIndices);
             return new String(newChars);
+        }
+    }
+
+    public static class Permutations {
+
+        private String data;
+        private Order order = Order.INPUT;
+
+        public Permutations(String data) {
+            if (data == null) {
+                throw new NullPointerException("cannot generate permutations for null string");
+            }
+            this.data = data;
+        }
+
+        public Permutations withOrder(Order order) {
+            this.order = order;
+            return this;
+        }
+
+        public StringPermutationGenerator build() {
+            return new StringPermutationGenerator(data, order);
         }
     }
 }

@@ -28,6 +28,5 @@ public class UniqueRandomGeneratorTest {
 
         assertEquals(expectedSum, valueSum);
         assertEquals(10, count);
-
     }
 }

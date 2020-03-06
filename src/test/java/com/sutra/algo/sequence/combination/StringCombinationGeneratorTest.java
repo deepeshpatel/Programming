@@ -2,91 +2,66 @@ package com.sutra.algo.sequence.combination;
 
 import com.sutra.algo.sequence.Sequence;
 import com.sutra.algo.util.Order;
-import org.junit.Assert;
 import org.junit.Test;
+
+import static org.junit.Assert.assertArrayEquals;
 
 public class StringCombinationGeneratorTest {
 
     @Test
-    public void shouldReturnCombinationsInInputOrder() {
+    public void combinationsShouldBeInInputOrderByDefault() {
 
-        String input = "DBCA";
         String[] expected = new String[]{"DB", "DC", "DA", "BC", "BA", "CA"};
-        int size = 2;
 
-        Iterable<String> itr = Sequence
-                .combinationsOf(input)
-                .ofSize(size)
-                .build();
+        Object[] output = Sequence
+                .combinationsOf("DBCA")
+                .ofSize(2)
+                .build()
+                .stream().toArray();
 
-        assertResults(expected, itr);
+        assertArrayEquals(expected, output);
     }
 
     @Test
-    public void shouldReturnCombinationsInLexOrder() {
+    public void combinationsShouldBeInLexOrderWhenSetToLex() {
 
-        String input = "DBCA";
         String[] expected = new String[] {"AB","AC","AD","BC","BD","CD"};
-        int size = 2;
 
-        Iterable<String> itr = Sequence
-                .combinationsOf(input)
-                .ofSize(size)
+        Object[] output = Sequence
+                .combinationsOf("DBCA")
+                .ofSize(2)
                 .withOrder(Order.LEXICAL)
-                .build();
+                .build().stream().toArray();
 
-        assertResults(expected, itr);
+        assertArrayEquals(expected, output);
     }
 
     @Test
     public void shouldReturnEmptyForEmptyInput() {
 
-        String input = "";
         String[] expected = new String[]{""};
-        int size = 0;
 
-        Iterable<String> itr = Sequence
-                .combinationsOf(input)
-                .ofSize(size)
-                .build();
+        Object[] output = Sequence
+                .combinationsOf("")
+                .build().stream().toArray();
 
-        assertResults(expected, itr);
+        assertArrayEquals(expected, output);
     }
 
     @Test(expected = IllegalArgumentException.class)
-    public void shouldThrowExpForSizeGreaterThanInput() {
-
-        String input = "AB";
-        String[] expected = new String[]{""};
-        int size = 3;
-
-        Iterable<String> itr = Sequence
-                .combinationsOf(input)
-                .ofSize(size)
-                .build();
-
-        assertResults(expected, itr);
+    public void shouldNotAllowToGenerateCombinationsOFSizeGreaterThanInput() {
+        Sequence.combinationsOf("AB")
+                .ofSize(3).build();
     }
 
     @Test
     public void shouldReturnEmptyForSizeZero() {
 
-        String input = "AB";
-        String[] expected = new String[]{""};
-        int size = 0;
+        Object[] output = Sequence
+                .combinationsOf("AB")
+                .ofSize(0)
+                .build().stream().toArray();
 
-        Iterable<String> itr = Sequence
-                .combinationsOf(input)
-                .ofSize(size)
-                .build();
-
-        assertResults(expected, itr);
-    }
-
-    private void assertResults(String[] expected, Iterable<String> itr) {
-        int i=0;
-        for (String s : itr) {
-            Assert.assertEquals(expected[i++], s);
-        }
+        assertArrayEquals(new String[]{""}, output);
     }
 }

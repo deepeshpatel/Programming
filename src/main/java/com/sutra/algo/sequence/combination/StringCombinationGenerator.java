@@ -18,11 +18,14 @@
 
 package com.sutra.algo.sequence.combination;
 
-import com.sun.istack.internal.NotNull;
 import com.sutra.algo.util.Order;
 import com.sutra.algo.util.Util;
 
 import java.util.Iterator;
+import java.util.stream.Stream;
+import java.util.stream.StreamSupport;
+
+import static com.sutra.algo.sequence.combination.Algorithm.nextCombination;
 
 public class StringCombinationGenerator implements Iterable<String> {
 
@@ -47,18 +50,19 @@ public class StringCombinationGenerator implements Iterable<String> {
      * @param r number of combinations from N items. r must be <= N
      * @param order order of output. Input order or Lexicographical order
      */
-    StringCombinationGenerator(@NotNull String seed, int r, Order order) {
+    private StringCombinationGenerator(String seed, int r, Order order) {
 
-    if(r > seed.length())
-        throw new IllegalArgumentException("Can't produce combinations of length " +
-                r + " from list of length " + seed.length());
+        if (r > seed.length()) {
+            throw new IllegalArgumentException("Can't produce combinations of length " +
+                    r + " from list of length " + seed.length());
+        }
 
-    setSeed(seed, order);
-    this.r = r;
+        this.seed = (order == Order.LEXICAL) ? Util.toLexString(seed) : seed;
+        this.r = r;
     }
 
-    private void setSeed(String seed, Order order) {
-        this.seed = (order == Order.LEXICAL) ? Util.toLexString(seed) : seed;
+    public Stream<String> stream() {
+        return StreamSupport.stream(spliterator(), false);
     }
 
     @Override
@@ -93,9 +97,37 @@ public class StringCombinationGenerator implements Iterable<String> {
         @Override
         public String next() {
             int[] old = indices;
-            indices = CombinationAlgorithm.nextCombination(indices, seed.length);
+            indices = nextCombination(indices, seed.length);
             char[] output = Util.indicesToValues(seed, old);
             return new String(output);
+        }
+    }
+
+    public static class Combinations {
+
+        private String data;
+        private int size;
+        private Order order = Order.INPUT;
+
+        public Combinations(String data) {
+            if (data == null) {
+                throw new NullPointerException("Can not generate combinations of null string");
+            }
+            this.data = data;
+        }
+
+        public Combinations ofSize(int r) {
+            this.size = r;
+            return this;
+        }
+
+        public Combinations withOrder(Order order) {
+            this.order = order;
+            return this;
+        }
+
+        public StringCombinationGenerator build() {
+            return new StringCombinationGenerator(data, size, order);
         }
     }
 }

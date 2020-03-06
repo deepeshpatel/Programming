@@ -24,13 +24,16 @@ public class NumberGenerator implements Iterable<String>{
 
     private NumberGeneratorParams params;
 
-    NumberGenerator(NumberGeneratorParams params) {
+    private NumberGenerator(NumberGeneratorParams params) {
         this.params = params;
     }
 
     @Override
     public Iterator<String> iterator() {
-        return new Itr(params.symbols.toCharArray(),params.size, params.startFrom, params.skipEvery);
+        return new Itr(params.symbols.toCharArray(),
+                params.size,
+                params.startFrom,
+                params.skipEvery);
     }
 
     static class Itr implements Iterator<String> {
@@ -134,6 +137,75 @@ public class NumberGenerator implements Iterable<String>{
                 }
             }
             hasNext = (j != indices.length);
+        }
+    }
+
+    public static class Numbers {
+
+        private int startFrom;
+        private int skipEvery;
+        private int base;
+        private int size;
+        private String symbols;
+
+        public Numbers ofBase(int base) {
+            if (base <= 0)
+                throw new IllegalArgumentException(" base must be > 0");
+            this.base = base;
+            return this;
+        }
+
+        public Numbers ofSize(int size) {
+            if (size <= 0)
+                throw new IllegalArgumentException(" size must be > 0");
+            this.size = size;
+            return this;
+        }
+
+        public Numbers andSkipEvery(int skipEvery) {
+            this.skipEvery = skipEvery;
+            return this;
+        }
+
+        public Numbers withStartingValue(int startFrom) {
+            if (startFrom < 0)
+                throw new IllegalArgumentException(" StartingValue must be >=0");
+            this.startFrom = startFrom;
+            return this;
+        }
+
+        public Numbers withSymbols(String symbols) {
+
+            if (symbols == null || symbols.isEmpty()) {
+                throw new IllegalArgumentException("A non null and non empty string is required" +
+                        " for creating symbols of number system");
+            }
+
+            this.symbols = symbols;
+            return this;
+        }
+
+        public NumberGenerator build() {
+
+            if (symbols == null && base == 0) {
+                throw new IllegalArgumentException("Must specify either base of the number " +
+                        "system or Symbols used to create number system ");
+            }
+
+            if (symbols != null && base != 0) {
+                throw new IllegalArgumentException("You have specified both base and symbols" +
+                        " for the number system. specify only one of them");
+            }
+
+            NumberGeneratorParams params;
+
+            if (symbols != null) {
+                params = new NumberGeneratorParams(symbols, size, startFrom, skipEvery);
+            } else {
+                params = new NumberGeneratorParams(base, size, startFrom, skipEvery);
+            }
+            return new NumberGenerator(params);
+
         }
     }
 }

@@ -18,7 +18,7 @@
 
 package com.sutra.algo.sequence.permutation;
 
-class PermutationAlgorithm {
+class Algorithm {
 
     //1. Find the highest index i such that s[i] < s[i+1]. If no such index exists, the permutation is the last permutation.
     //2. Find the highest index j > i such that s[j] > s[i]. Such a j must exist, since i+1 is such an index.

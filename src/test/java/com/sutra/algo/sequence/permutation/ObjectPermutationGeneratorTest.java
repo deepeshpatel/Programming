@@ -2,79 +2,73 @@ package com.sutra.algo.sequence.permutation;
 
 import com.sutra.algo.sequence.Sequence;
 import com.sutra.algo.util.Order;
-import org.junit.Assert;
 import org.junit.Test;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
+import static org.junit.Assert.assertArrayEquals;
+import static org.junit.Assert.assertEquals;
 
 public class ObjectPermutationGeneratorTest {
 
     @Test
-    public void shouldReturn2ValuesInDescendingOrder() {
+    public void permutationsShouldBeInInputOrderByDefault() {
 
         List<String> input = Arrays.asList("B", "A");
-        String[] expected = new String[]{"[B, A]", "[A, B]"};
+        String[][] expected = new String[][]{
+                {"B", "A"},
+                {"A", "B"}};
 
-        Iterable<List<String>> itr = Sequence
+        Object[] output = Sequence
                 .permutationsOf(input)
-                .build();
+                .build().stream().toArray();
 
-        assertResults(expected, itr);
+        assertArrayEqual(expected, output);
     }
 
     @Test
-    public void shouldReturn2ValuesInAscendingOrder() {
+    public void permutationsShouldBeInLexOrderWhenSetToLex() {
 
         List<String> input = Arrays.asList("B", "A");
-        String[] expected = new String[]{"[A, B]","[B, A]"};
+        String[][] expected = new String[][]{
+                {"A", "B"},
+                {"B", "A"}};
 
-        Iterable<List<String>> itr = Sequence
+        Object[] output = Sequence
                 .permutationsOf(input)
                 .withOrder(Order.LEXICAL)
-                .build();
+                .build().stream().toArray();
 
-        assertResults(expected, itr);
+        assertArrayEqual(expected, output);
     }
 
     @Test
     public void shouldReturnEmptyList() {
 
         List<String> input = new ArrayList<>();
-        String[] expected = new String[]{"[]"};
+        String[][] expected = new String[1][0];
 
-        Iterable<List<String>> itr = Sequence
+        Object[] output = Sequence
                 .combinationsOf(input)
                 .withOrder(Order.LEXICAL)
-                .build();
+                .build().stream().toArray();
 
-        assertResults(expected, itr);
+        assertArrayEqual(expected, output);
     }
 
     @Test(expected = NullPointerException.class)
     public void shouldThrowExceptionForNullInputString() {
-
-        Sequence
-                .combinationsOf((List<String>) null)
-                .withOrder(Order.LEXICAL)
-                .build();
+        Sequence.combinationsOf((List<String>) null).build();
     }
 
-    @Test(expected = NoSuchElementException.class)
-    public void shouldThrowExceptionForOutOfBoundsIteration() {
+    private void assertArrayEqual(String[][] expected, Object[] output) {
 
-        Iterator<List<String>> itr = Sequence
-                .permutationsOf(new ArrayList<String>())
-                .build().iterator();
+        assertEquals(expected.length, output.length);
 
-        itr.next();
-        itr.next();
-    }
-
-    private void assertResults(String[] expected, Iterable<List<String>> itr) {
-
-        int i = 0;
-        for (List<String> list : itr) {
-            Assert.assertEquals(expected[i++], list.toString());
+        for (int i = 0; i < expected.length; i++) {
+            assertArrayEquals(expected[i], ((List) output[i]).toArray());
         }
     }
 }

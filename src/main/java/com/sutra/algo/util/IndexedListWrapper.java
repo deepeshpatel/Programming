@@ -247,6 +247,5 @@ public class IndexedListWrapper<T> implements List<T> {
         public void add(T t) {
             throwUnsupportedOException();
         }
-
     }
 }

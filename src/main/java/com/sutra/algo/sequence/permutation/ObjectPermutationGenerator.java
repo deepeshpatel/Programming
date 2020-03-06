@@ -23,16 +23,24 @@ import com.sutra.algo.util.Order;
 
 import java.util.*;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
+import java.util.stream.StreamSupport;
+
+import static com.sutra.algo.sequence.permutation.Algorithm.nextPermutation;
 
 public class ObjectPermutationGenerator<T> implements Iterable<List<T>> {
 
     private List<T> seed;
 
-    ObjectPermutationGenerator(Collection<T> seed, Order order) {
+    private ObjectPermutationGenerator(Collection<T> seed, Order order) {
 
         this.seed = order == Order.INPUT ?
                 new ArrayList<>(seed)
                 : seed.stream().sorted().collect(Collectors.toList());
+    }
+
+    public Stream<List<T>> stream() {
+        return StreamSupport.stream(this.spliterator(), false);
     }
 
     @Override
@@ -70,8 +78,30 @@ public class ObjectPermutationGenerator<T> implements Iterable<List<T>> {
             }
 
             int[] old = indices;
-            indices = PermutationAlgorithm.nextPermutation(indices);
+            indices = nextPermutation(indices);
             return new IndexedListWrapper<>(values, old);
+        }
+    }
+
+    public static class Permutations<T> {
+
+        private Collection<T> data;
+        private Order order = Order.INPUT;
+
+        public Permutations(Collection<T> data) {
+            if (data == null) {
+                throw new NullPointerException("can not generate permutations from null input");
+            }
+            this.data = data;
+        }
+
+        public Permutations<T> withOrder(Order order) {
+            this.order = order;
+            return this;
+        }
+
+        public ObjectPermutationGenerator build() {
+            return new ObjectPermutationGenerator<>(data, order);
         }
     }
 }

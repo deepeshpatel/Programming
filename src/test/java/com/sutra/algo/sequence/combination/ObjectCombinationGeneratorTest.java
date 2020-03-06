@@ -2,101 +2,80 @@ package com.sutra.algo.sequence.combination;
 
 import com.sutra.algo.sequence.Sequence;
 import com.sutra.algo.util.Order;
-import org.junit.Assert;
 import org.junit.Test;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import static org.junit.Assert.assertArrayEquals;
+import static org.junit.Assert.assertEquals;
+
 public class ObjectCombinationGeneratorTest {
 
     @Test
-    public void shouldReturnCombinationsInInputOrder() {
+    public void combinationsShouldBeInInputOrderByDefault() {
 
-        List<String> input = Arrays.asList("Red", "Green", "Blue");
-
-        String[] expected = new String[]{
-                "[Red, Green]",
-                "[Red, Blue]",
-                "[Green, Blue]"
+        String[][] expected = new String[][]{
+                {"Red", "Green"},
+                {"Red", "Blue"},
+                {"Green", "Blue"},
         };
 
-        int size = 2;
+        Object[] output = Sequence
+                .combinationsOf(Arrays.asList("Red", "Green", "Blue"))
+                .ofSize(2)
+                .build().stream().toArray();
 
-        Iterable<List<String>> itr = Sequence
-                .combinationsOf(input)
-                //.of(input)
-                .ofSize(size)
-                .build();
-
-        assertResults(expected, itr);
+        assertArrayEqual(expected, output);
     }
 
     @Test
-    public void shouldReturnCombinationsInLexOrder() {
+    public void combinationsShouldBeInLexOrderWhenSetToLex() {
 
-        List<String> input = Arrays.asList("Red", "Green", "Blue");
-
-        String[] expected = new String[]{
-                "[Blue, Green]",
-                "[Blue, Red]",
-                "[Green, Red]"
+        String[][] expected = new String[][]{
+                {"Blue", "Green"},
+                {"Blue", "Red"},
+                {"Green", "Red"},
         };
 
-        int size = 2;
-
-        Iterable<List<String>> itr = Sequence
-                .combinationsOf(input)
-                .ofSize(size)
+        Object[] output = Sequence
+                .combinationsOf(Arrays.asList("Red", "Green", "Blue"))
+                .ofSize(2)
                 .withOrder(Order.LEXICAL)
-                .build();
+                .build().stream().toArray();
 
-        assertResults(expected, itr);
+        assertArrayEqual(expected, output);
     }
 
     @Test(expected = IllegalArgumentException.class)
-    public void shouldThrowExpForSizeGreaterThanInput() {
-
-        List<String> input = new ArrayList<>();
-
-        String[] expected = new String[]{
-                "[Blue, Green]",
-                "[Blue, Red]",
-                "[Green, Red]"
-        };
-
-        int size = 2;
-
-        Iterable<List<String>> itr = Sequence
-                .combinationsOf(input)
-                .ofSize(size)
-                .withOrder(Order.LEXICAL)
+    public void shouldNotAllowToGenerateCombinationsOFSizeGreaterThanInput() {
+        Sequence
+                .combinationsOf(new ArrayList<>())
+                .ofSize(2)
                 .build();
-
-        assertResults(expected, itr);
     }
 
     @Test
     public void shouldReturnEmptyListForSizeZero() {
 
-        List<String> input = new ArrayList<>();
-        String[] expected = new String[]{"[]"};
-        int size = 0;
+        String[][] expected = new String[1][0];
 
-        Iterable<List<String>> itr = Sequence
-                .combinationsOf(input)
-                .ofSize(size)
+        Object[] output = Sequence
+                .combinationsOf(new ArrayList<>())
+                .ofSize(0)
                 .withOrder(Order.LEXICAL)
-                .build();
+                .build().stream().toArray();
 
-        assertResults(expected, itr);
+        assertArrayEqual(expected, output);
     }
 
-    private void assertResults(String[] expected, Iterable<List<String>> itr) {
-        int i=0;
-        for (List<String> list : itr) {
-            Assert.assertEquals(expected[i++], list.toString());
+    private void assertArrayEqual(String[][] expected, Object[] output) {
+
+        assertEquals(expected.length, output.length);
+
+        for (int i = 0; i < expected.length; i++) {
+            assertArrayEquals(expected[i], ((List) output[i]).toArray());
         }
     }
 }

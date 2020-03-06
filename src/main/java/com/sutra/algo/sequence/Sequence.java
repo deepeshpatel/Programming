@@ -18,12 +18,14 @@
 
 package com.sutra.algo.sequence;
 
-import com.sutra.algo.sequence.combination.Combinations.ObjectCombinations;
-import com.sutra.algo.sequence.combination.Combinations.StringCombinations;
-import com.sutra.algo.sequence.number.Numbers;
-import com.sutra.algo.sequence.permutation.Permutations;
-import com.sutra.algo.sequence.permutation.Permutations.ObjectPermutations;
+import com.sutra.algo.sequence.combination.ObjectCombinationGenerator;
+import com.sutra.algo.sequence.combination.StringCombinationGenerator;
+import com.sutra.algo.sequence.number.NumberGenerator;
+import com.sutra.algo.sequence.permutation.ObjectPermutationGenerator;
+import com.sutra.algo.sequence.permutation.StringPermutationGenerator;
 import com.sutra.algo.sequence.random.UniqueRandomGenerator;
+import com.sutra.algo.sequence.subset.ObjectSubsetGenerator;
+import com.sutra.algo.sequence.subset.StringSubsetGenerator;
 
 import java.util.Collection;
 
@@ -57,27 +59,35 @@ public class Sequence {
      *
      * </code>
      */
-    public static StringCombinations combinationsOf(String data) {
-        return new StringCombinations(data);
+    public static StringCombinationGenerator.Combinations combinationsOf(String data) {
+        return new StringCombinationGenerator.Combinations(data);
     }
 
-    public static <T> ObjectCombinations<T> combinationsOf(Collection<T> data) {
-        return new ObjectCombinations<>(data);
+    public static <T> ObjectCombinationGenerator.Combinations<T> combinationsOf(Collection<T> data) {
+        return new ObjectCombinationGenerator.Combinations<>(data);
     }
 
-    public static <T> ObjectPermutations<T> permutationsOf(Collection<T> data) {
-        return new ObjectPermutations<>(data);
+    public static <T> ObjectPermutationGenerator.Permutations<T> permutationsOf(Collection<T> data) {
+        return new ObjectPermutationGenerator.Permutations<>(data);
     }
 
-    public static Permutations.StringPermutations permutationsOf(String data) {
-        return new Permutations.StringPermutations(data);
+    public static StringPermutationGenerator.Permutations permutationsOf(String data) {
+        return new StringPermutationGenerator.Permutations(data);
     }
 
-    public static Numbers numbers() {
-        return new Numbers();
+    public static NumberGenerator.Numbers numbers() {
+        return new NumberGenerator.Numbers();
     }
 
     public static UniqueRandomGenerator.Builder uniqueRandomNumbers() {
         return new UniqueRandomGenerator.Builder();
+    }
+
+    public static StringSubsetGenerator.Subsets subsetsOf(String data) {
+        return new StringSubsetGenerator.Subsets(data);
+    }
+
+    public static <T> ObjectSubsetGenerator.Subsets<T> subsetsOf(Collection<T> data) {
+        return new ObjectSubsetGenerator.Subsets<>(data);
     }
 }

@@ -26,6 +26,8 @@ import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
+import java.util.stream.StreamSupport;
 
 public class ObjectCombinationGenerator<T> implements Iterable<List<T>> {
 
@@ -50,7 +52,7 @@ public class ObjectCombinationGenerator<T> implements Iterable<List<T>> {
      * @param r number of combinations from N items. r must be <= N
      * @param order order of output. Input order or Lexicographical order
      */
-    ObjectCombinationGenerator(Collection<T> seed, int r, Order order) {
+    private ObjectCombinationGenerator(Collection<T> seed, int r, Order order) {
 
         if (r > seed.size())
             throw new IllegalArgumentException("Can't produce combinations of length " +
@@ -61,6 +63,10 @@ public class ObjectCombinationGenerator<T> implements Iterable<List<T>> {
                 new ArrayList<>(seed)
                 : seed.stream().sorted().collect(Collectors.toList());
 
+    }
+
+    public Stream<List<T>> stream() {
+        return StreamSupport.stream(this.spliterator(), false);
     }
 
     @Override
@@ -95,8 +101,37 @@ public class ObjectCombinationGenerator<T> implements Iterable<List<T>> {
         @Override
         public List<T> next() {
             int[] old = indices;
-            indices = CombinationAlgorithm.nextCombination(indices, values.size());
+            indices = Algorithm.nextCombination(indices, values.size());
             return new IndexedListWrapper<>(values, old);
+        }
+    }
+
+    public static class Combinations<T> {
+
+        private Collection<T> data;
+        private int size;
+        private Order order = Order.INPUT;
+
+
+        public Combinations(Collection<T> data) {
+            if (data == null) {
+                throw new NullPointerException("can not generate combinations from null input");
+            }
+            this.data = data;
+        }
+
+        public Combinations<T> ofSize(int r) {
+            this.size = r;
+            return this;
+        }
+
+        public Combinations<T> withOrder(Order order) {
+            this.order = order;
+            return this;
+        }
+
+        public ObjectCombinationGenerator<T> build() {
+            return new ObjectCombinationGenerator<>(data, size, order);
         }
     }
 }
